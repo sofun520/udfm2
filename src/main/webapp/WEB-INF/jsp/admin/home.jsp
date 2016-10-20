@@ -126,9 +126,7 @@ i {
 	<div style="border-bottom: 1px solid #d9d9d9;">
 		<div class="top">
 			<div class="logo">
-				<p style="font-size: 24px; color: #238efa">
-					<i class="sui-icon icon-tb-homefill"></i>测试系统
-				</p>
+				<img alt="" src="../images/logo.gif">
 			</div>
 			<div class="top_menu">
 				<ul id="pMenu">
