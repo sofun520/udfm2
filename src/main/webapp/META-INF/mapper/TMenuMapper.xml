@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.TMenuMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.TMenu">
+		<id column="M_ID" property="mId" jdbcType="INTEGER" />
+		<result column="M_NAME" property="mName" jdbcType="VARCHAR" />
+		<result column="M_URL" property="mUrl" jdbcType="VARCHAR" />
+		<result column="M_PARENT" property="mParent" jdbcType="INTEGER" />
+		<result column="M_TYPE" property="mType" jdbcType="CHAR" />
+		<result column="M_DATE" property="mDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		M_ID, M_NAME, M_URL, M_PARENT, M_TYPE, M_DATE
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu
+		where M_ID = #{mId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu
+		where 1=1
+		<if test="mType != '' and mType != null">
+			and M_TYPE = #{mType}
+		</if>
+		<if test="mParent != null and mParent!=''">
+			and M_PARENT = #{mParent}
+		</if>
+		<if test="mParent ==null or mParent ==''">
+			and M_PARENT is null
+		</if>
+	</select>
+	
+	<select id="queryAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu
+		where 1=1
+		<if test="mType != '' and mType != null">
+			and M_TYPE = #{mType}
+		</if>
+		<if test="mParent != null and mParent!=''">
+			and M_PARENT = #{mParent}
+		</if>
+		<if test="mParent ==null or mParent ==''">
+			and M_PARENT is null
+		</if>
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_menu
+		where M_ID =
+		#{mId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.TMenu">
+		insert into t_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mId != null">
+				M_ID,
+			</if>
+			<if test="mName != null">
+				M_NAME,
+			</if>
+			<if test="mUrl != null">
+				M_URL,
+			</if>
+			<if test="mParent != null">
+				M_PARENT,
+			</if>
+			<if test="mType != null">
+				M_TYPE,
+			</if>
+			<if test="mDate != null">
+				M_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mId != null">
+				#{mId,jdbcType=INTEGER},
+			</if>
+			<if test="mName != null">
+				#{mName,jdbcType=VARCHAR},
+			</if>
+			<if test="mUrl != null">
+				#{mUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="mParent != null">
+				#{mParent,jdbcType=INTEGER},
+			</if>
+			<if test="mType != null">
+				#{mType,jdbcType=CHAR},
+			</if>
+			<if test="mDate != null">
+				#{mDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.TMenu">
+		update t_menu
+		<set>
+			<if test="mName != null">
+				M_NAME = #{mName,jdbcType=VARCHAR},
+			</if>
+			<if test="mUrl != null">
+				M_URL = #{mUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="mParent != null">
+				M_PARENT = #{mParent,jdbcType=INTEGER},
+			</if>
+			<if test="mType != null">
+				M_TYPE = #{mType,jdbcType=CHAR},
+			</if>
+			<if test="mDate != null">
+				M_DATE = #{mDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where M_ID = #{mId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

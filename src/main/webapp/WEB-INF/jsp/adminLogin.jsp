@@ -24,18 +24,18 @@
 					<label class="control-label">用户名：</label>
 					<div class="controls">
 						<input class="input-large" type='text' id="username"
-							data-rules="required|minlength=2|maxlength=30" />
+							data-rules="required|minlength=5|maxlength=30" />
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">密码：</label>
 					<div class="controls">
 						<input class="input-large" type='password' id="password"
-							data-rules="required|minlength=2|maxlength=30" />
+							data-rules="required|minlength=5|maxlength=30" />
 					</div>
 				</div>
 				<div style="text-align: center; width: 400px;">
-					<button class="sui-btn btn-primary btn-large" onclick="login()">登录</button>
+					<button class="sui-btn btn-primary btn-large" type="submit">登录</button>
 					<button class="sui-btn btn-large" type="reset">重置</button>
 				</div>
 			</form>
@@ -43,25 +43,38 @@
 	</div>
 
 	<script type="text/javascript">
-		function login() {
-			var username = $("#username").val();
-			var password = $("#password").val();
-			if (username != null && password != null && username != ''
-					&& password != '') {
-				doLogin(username,password);
+		$(function() {
+			if (window != top) {
+				top.location.href = location.href;
 			}
-		}
+		});
 
-		function doLogin(username, password) {
-			$.post("checkLogin.do", {
-				username : username,
-				password : password
-			}, function(data) {
-				//alert(JSON.stringify(data));
-				if(data.success==0){
-					window.location.href='main.do';
-				}
-			});
+		$("#servingForm").validate(
+				{
+					success : function() {
+						var username = $("#username").val();
+						var password = $("#password").val();
+						if (username != null && password != null
+								&& username != '' && password != '') {
+							$.post("checkLogin.do", {
+								username : username,
+								password : password
+							}, function(data) {
+								//alert(JSON.stringify(data));
+								if (data.success == 0) {
+									window.location.href = 'admin/home.do';
+								} else {
+									$.alert(data.message)
+								}
+							});
+						}
+
+						return false;
+					}
+				})
+
+		function login() {
+
 		}
 	</script>
 </body>

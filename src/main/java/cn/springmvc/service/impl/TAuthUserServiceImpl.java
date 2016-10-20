@@ -6,28 +6,28 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.springmvc.dao.UserMapper;
-import cn.springmvc.model.User;
-import cn.springmvc.service.UserService;
+import cn.springmvc.dao.TAuthUserMapper;
+import cn.springmvc.model.TAuthUser;
+import cn.springmvc.service.TAuthUserService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class TAuthUserServiceImpl implements TAuthUserService {
 
 	@Autowired
-	private UserMapper dao;
+	private TAuthUserMapper dao;
 
 	@Override
-	public int insert(User t) {
+	public int insert(TAuthUser t) {
 		return dao.insert(t);
 	}
 
 	@Override
-	public void update(User t) {
+	public void update(TAuthUser t) {
 		dao.update(t);
 	}
 
 	@Override
-	public List<User> query(Map<String, Object> map) {
+	public List<TAuthUser> query(Map<String, Object> map) {
 		return dao.query(map);
 	}
 
@@ -37,13 +37,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User find(Integer id) {
+	public TAuthUser find(Integer id) {
 		return dao.find(id);
 	}
 
 	@Override
 	public int count(Map<String, Object> map) {
 		return dao.count(map);
+	}
+
+	@Override
+	public TAuthUser checkLogin(Map<String, Object> map) {
+		return dao.checkLogin(map);
 	}
 
 }

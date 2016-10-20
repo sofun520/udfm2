@@ -40,14 +40,14 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<filter>
+	<!-- <filter>
 		<filter-name>mvcSessionFilter</filter-name>
 		<filter-class>cn.springmvc.util.SessionFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>mvcSessionFilter</filter-name>
 		<url-pattern>/mvc/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<filter>
 		<filter-name>AdminSessionFilter</filter-name>

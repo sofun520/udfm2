@@ -1,5 +1,5 @@
 <html>
 <body>
-<script>window.location.href="a.do"</script>
+<script>window.location.href="adminLogin.do"</script>
 </body>
 </html>

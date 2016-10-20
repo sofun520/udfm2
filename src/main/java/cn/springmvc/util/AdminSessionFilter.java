@@ -25,7 +25,7 @@ public class AdminSessionFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
 		HttpSession session = request.getSession();
-		if (!StringUtils.isEmpty(session.getAttribute("jhacAdmin"))) {
+		if (!StringUtils.isEmpty(session.getAttribute("user"))) {
 			arg2.doFilter(request, response);
 		} else {
 			response.sendRedirect("../adminLogin.do");
