@@ -123,7 +123,7 @@ i {
 </style>
 </head>
 <body>
-	<div style="border-bottom: 1px solid #d9d9d9;">
+	<div style="border-bottom: 1px solid #d9d9d9;background-color: #f6f6f6">
 		<div class="top">
 			<div class="logo">
 				<img alt="" src="../images/logo.gif">

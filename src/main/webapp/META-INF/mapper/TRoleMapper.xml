@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.TRoleMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.TRole">
+		<id column="R_ID" property="rId" jdbcType="INTEGER" />
+		<result column="R_NAME" property="rName" jdbcType="VARCHAR" />
+		<result column="R_DATE" property="rDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		R_ID, R_NAME, R_DATE
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_role
+		where R_ID = #{rId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_role
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_role
+		where R_ID =
+		#{rId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.TRole">
+		insert into t_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rId != null">
+				R_ID,
+			</if>
+			<if test="rName != null">
+				R_NAME,
+			</if>
+			<if test="rDate != null">
+				R_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="rId != null">
+				#{rId,jdbcType=INTEGER},
+			</if>
+			<if test="rName != null">
+				#{rName,jdbcType=VARCHAR},
+			</if>
+			<if test="rDate != null">
+				#{rDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.TRole">
+		update t_role
+		<set>
+			<if test="rName != null">
+				R_NAME = #{rName,jdbcType=VARCHAR},
+			</if>
+			<if test="rDate != null">
+				R_DATE = #{rDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where R_ID = #{rId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

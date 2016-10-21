@@ -1,5 +1,6 @@
 package cn.springmvc.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,18 +29,33 @@ public class MenuController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> context = new HashMap<String, Object>();
 		List<TMenu> list = service.queryAll(map);
+		List<TMenu> plist = service.query(map);
 		context.put("list", list);
+		context.put("plist", plist);
+
 		return new ModelAndView("admin/menu", context);
 	}
 
-	@RequestMapping("/admin/add")
+	@RequestMapping("/admin/menuAdd")
 	public ModelAndView add(TMenu menu) {
 		try {
+			menu.setmDate(new Date());
 			service.insert(menu);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return new ModelAndView("redirect:/admin/menu");
+		return new ModelAndView("redirect:/admin/menu.do");
+	}
+
+	@RequestMapping("/admin/delete")
+	public ModelAndView delete(HttpServletRequest request) {
+		try {
+			int id = Integer.parseInt(request.getParameter("id"));
+			service.delete(id);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return new ModelAndView("redirect:/admin/menu.do");
 	}
 
 	@RequestMapping("/api/menu/query")

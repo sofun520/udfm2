@@ -21,16 +21,17 @@
 	<div style="margin-bottom: 10px;">
 		<button data-toggle="modal" data-target="#myModal"
 			data-keyboard="false" data-backdrop="false"
-			class="sui-btn btn-primary btn-lg">添加菜单</button>
+			class="sui-btn btn-primary btn-lg">添加角色</button>
+	</div>
+	<div class="sui-msg msg-block msg-default msg-tips">
+		<div class="msg-con">系统角色列表</div>
+		<s class="msg-icon"></s>
 	</div>
 	<table class="sui-table table-bordered">
 		<thead>
 			<tr>
 				<th>＃</th>
-				<th>菜单名称</th>
-				<th>菜单URL</th>
-				<th>父ID</th>
-				<th>类别</th>
+				<th>角色名称</th>
 				<th>添加时间</th>
 				<th>操作</th>
 			</tr>
@@ -38,20 +39,17 @@
 		<tbody>
 			<c:if test="${fn:length(list)<=0}">
 				<tr>
-					<td colspan="7">没有数据</td>
+					<td colspan="4" align="center">没有数据</td>
 				</tr>
 			</c:if>
 			<c:if test="${fn:length(list)>0}">
-				<c:forEach var="m" items="${list}" varStatus="x">
+				<c:forEach var="r" items="${list}" varStatus="x">
 					<tr>
 						<td><c:out value="${x.count}"></c:out></td>
-						<td><c:out value="${m.mName}"></c:out></td>
-						<td><c:out value="${m.mUrl}"></c:out></td>
-						<td><c:out value="${m.mParent}"></c:out></td>
-						<td><c:out value="${m.mType}"></c:out></td>
-						<td><fmt:formatDate value="${m.mDate}" type="date"
+						<td><c:out value="${r.rName}"></c:out></td>
+						<td><fmt:formatDate value="${r.rDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="delete.do?id=<c:out value="${m.mId}"></c:out>">删除</a>
+						<td><a href="delete.do?id=<c:out value="${r.rId}"></c:out>">删除</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -101,46 +99,20 @@
 				<div class="modal-header">
 					<button type="button" data-dismiss="modal" aria-hidden="true"
 						class="sui-close">×</button>
-					<h4 id="myModalLabel" class="modal-title">添加新菜单</h4>
+					<h4 id="myModalLabel" class="modal-title">添加角色</h4>
 				</div>
 				<div class="modal-body">
-					<form class="sui-form form-horizontal sui-validate" action="menuAdd.do"
+					<div class="sui-msg msg-block msg-default msg-tips">
+						<div class="msg-con">填写系统角色属性</div>
+						<s class="msg-icon"></s>
+					</div>
+					<form class="sui-form form-horizontal sui-validate" action="roleAdd.do"
 						method="post">
 						<div class="control-group">
-							<label for="inputEmail" class="control-label">菜单名称：</label>
+							<label for="inputEmail" class="control-label">角色名称：</label>
 							<div class="controls">
-								<input type="text" id="inputEmail" name="mName" placeholder=""
+								<input type="text" id="inputEmail" name="rName" placeholder=""
 									data-rules="required">
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="inputEmail" class="control-label">菜单url：</label>
-							<div class="controls">
-								<input type="text" id="inputEmail" name="mUrl" placeholder=""
-									>
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="inputEmail" class="control-label">父菜单：</label>
-							<div class="controls">
-								<select name="mParent" 
-									style="width: 155px;">
-									<option value="">一级菜单</option>
-									<c:forEach var="p" items="${plist }">
-										<option value="<c:out value="${p.mId}"></c:out>"><c:out
-												value="${p.mName}"></c:out></option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="inputEmail" class="control-label">菜单类型：</label>
-							<div class="controls">
-								<select name="mType" data-rules="required" style="width: 155px;">
-									<option value="1">管理员管理后台</option>
-									<option value="2">用户管理后台</option>
-									<option value="3">移动端</option>
-								</select>
 							</div>
 						</div>
 						<div style="text-align: center;">

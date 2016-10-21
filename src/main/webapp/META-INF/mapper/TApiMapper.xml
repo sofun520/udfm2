@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.TApiMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.TApi">
+		<id column="A_ID" property="aId" jdbcType="INTEGER" />
+		<result column="A_NAME" property="aName" jdbcType="VARCHAR" />
+		<result column="A_URL" property="aUrl" jdbcType="VARCHAR" />
+		<result column="A_REQUEST_TYPE" property="aRequestType"
+			jdbcType="CHAR" />
+		<result column="A_PARAM" property="aParam" jdbcType="VARCHAR" />
+		<result column="A_COUNT" property="aCount" jdbcType="INTEGER" />
+		<result column="A_DESCRIPTION" property="aDescription"
+			jdbcType="VARCHAR" />
+		<result column="A_DATE" property="aDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		A_ID, A_NAME, A_URL, A_REQUEST_TYPE, A_PARAM, A_COUNT,
+		A_DESCRIPTION,
+		A_DATE
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_api
+		where A_ID = #{aId,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_api
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_api
+		where A_ID =
+		#{aId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.TApi">
+		insert into t_api
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="aId != null">
+				A_ID,
+			</if>
+			<if test="aName != null">
+				A_NAME,
+			</if>
+			<if test="aUrl != null">
+				A_URL,
+			</if>
+			<if test="aRequestType != null">
+				A_REQUEST_TYPE,
+			</if>
+			<if test="aParam != null">
+				A_PARAM,
+			</if>
+			<if test="aCount != null">
+				A_COUNT,
+			</if>
+			<if test="aDescription != null">
+				A_DESCRIPTION,
+			</if>
+			<if test="aDate != null">
+				A_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="aId != null">
+				#{aId,jdbcType=INTEGER},
+			</if>
+			<if test="aName != null">
+				#{aName,jdbcType=VARCHAR},
+			</if>
+			<if test="aUrl != null">
+				#{aUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="aRequestType != null">
+				#{aRequestType,jdbcType=CHAR},
+			</if>
+			<if test="aParam != null">
+				#{aParam,jdbcType=VARCHAR},
+			</if>
+			<if test="aCount != null">
+				#{aCount,jdbcType=INTEGER},
+			</if>
+			<if test="aDescription != null">
+				#{aDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="aDate != null">
+				#{aDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.TApi">
+		update t_api
+		<set>
+			<if test="aName != null">
+				A_NAME = #{aName,jdbcType=VARCHAR},
+			</if>
+			<if test="aUrl != null">
+				A_URL = #{aUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="aRequestType != null">
+				A_REQUEST_TYPE = #{aRequestType,jdbcType=CHAR},
+			</if>
+			<if test="aParam != null">
+				A_PARAM = #{aParam,jdbcType=VARCHAR},
+			</if>
+			<if test="aCount != null">
+				A_COUNT = #{aCount,jdbcType=INTEGER},
+			</if>
+			<if test="aDescription != null">
+				A_DESCRIPTION = #{aDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="aDate != null">
+				A_DATE = #{aDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where A_ID = #{aId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

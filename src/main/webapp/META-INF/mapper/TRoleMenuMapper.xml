@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.TRoleMenuMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.TRoleMenu">
+		<id column="RA_ID" property="raId" jdbcType="INTEGER" />
+		<result column="RA_ROLE_ID" property="raRoleId" jdbcType="INTEGER" />
+		<result column="RA_MENU_ID" property="raMenuId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		RA_ID, RA_ROLE_ID, RA_MENU_ID
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_role_menu
+		where RA_ID = #{raId,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_role_menu
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_role_menu
+		where
+		RA_ID = #{raId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.TRoleMenu">
+		insert into t_role_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="raId != null">
+				RA_ID,
+			</if>
+			<if test="raRoleId != null">
+				RA_ROLE_ID,
+			</if>
+			<if test="raMenuId != null">
+				RA_MENU_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="raId != null">
+				#{raId,jdbcType=INTEGER},
+			</if>
+			<if test="raRoleId != null">
+				#{raRoleId,jdbcType=INTEGER},
+			</if>
+			<if test="raMenuId != null">
+				#{raMenuId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.TRoleMenu">
+		update t_role_menu
+		<set>
+			<if test="raRoleId != null">
+				RA_ROLE_ID = #{raRoleId,jdbcType=INTEGER},
+			</if>
+			<if test="raMenuId != null">
+				RA_MENU_ID = #{raMenuId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where RA_ID = #{raId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

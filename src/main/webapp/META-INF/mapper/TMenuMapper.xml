@@ -42,15 +42,6 @@
 		<include refid="Base_Column_List" />
 		from t_menu
 		where 1=1
-		<if test="mType != '' and mType != null">
-			and M_TYPE = #{mType}
-		</if>
-		<if test="mParent != null and mParent!=''">
-			and M_PARENT = #{mParent}
-		</if>
-		<if test="mParent ==null or mParent ==''">
-			and M_PARENT is null
-		</if>
 	</select>
 
 	<delete id="delete" parameterType="java.lang.Integer">
