@@ -51,7 +51,8 @@
 						<td><c:out value="${m.mType}"></c:out></td>
 						<td><fmt:formatDate value="${m.mDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="delete.do?id=<c:out value="${m.mId}"></c:out>">删除</a>
+						<td><a href="menuDel.do?id=<c:out value="${m.mId}"></c:out>">删除</a>
+						<button class="sui-btn btn-small J_addOneSupplier">添加</button>
 						</td>
 					</tr>
 				</c:forEach>

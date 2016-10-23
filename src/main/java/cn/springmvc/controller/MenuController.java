@@ -47,7 +47,7 @@ public class MenuController {
 		return new ModelAndView("redirect:/admin/menu.do");
 	}
 
-	@RequestMapping("/admin/delete")
+	@RequestMapping("/admin/menuDel")
 	public ModelAndView delete(HttpServletRequest request) {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));

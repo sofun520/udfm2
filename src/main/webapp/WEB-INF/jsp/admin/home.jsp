@@ -105,7 +105,7 @@
 .top_menu li {
 	float: left;
 	list-style: none;
-	width: 100px;
+	width: 110px;
 	height: 35px;
 	font-size: 14px;
 	margin-top: 15px;
@@ -172,7 +172,7 @@ i {
 					if (i == 0) {
 						menuId = value.mId;
 					}
-					ht+='<li><a href="javascript:void()" onclick="getSubMenu(\''+value.mId+'\')">'+value.mName+'</a></li>';
+					ht+='<li><a href="javascript:void()"  onclick="getSubMenu(\''+value.mId+'\')">'+value.mName+'</a></li>';
 				})
 				$("#pMenu").html(ht);
 				getSubMenu(menuId);

@@ -49,7 +49,7 @@
 						<td><c:out value="${r.rName}"></c:out></td>
 						<td><fmt:formatDate value="${r.rDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="delete.do?id=<c:out value="${r.rId}"></c:out>">删除</a>
+						<td><a href="apiDel.do?id=<c:out value="${r.rId}"></c:out>">删除</a>
 						</td>
 					</tr>
 				</c:forEach>
