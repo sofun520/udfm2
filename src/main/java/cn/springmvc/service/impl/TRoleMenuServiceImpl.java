@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.springmvc.dao.TRoleMenuMapper;
+import cn.springmvc.model.RoleMenuApi;
 import cn.springmvc.model.TRoleMenu;
 import cn.springmvc.service.TRoleMenuService;
 
@@ -44,6 +45,21 @@ public class TRoleMenuServiceImpl implements TRoleMenuService {
 	@Override
 	public int count(Map<String, Object> map) {
 		return dao.count(map);
+	}
+
+	@Override
+	public List<RoleMenuApi> queryMenu(Map<String, Object> map) {
+		return dao.queryMenu(map);
+	}
+
+	@Override
+	public void deleteByMap(Map<String, Object> map) {
+		dao.deleteByMap(map);
+	}
+
+	@Override
+	public void insertList(Map<String, Object> map) {
+		dao.insertList(map);
 	}
 
 }

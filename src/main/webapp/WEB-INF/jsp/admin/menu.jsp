@@ -51,8 +51,10 @@
 						<td><c:out value="${m.mType}"></c:out></td>
 						<td><fmt:formatDate value="${m.mDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="menuDel.do?id=<c:out value="${m.mId}"></c:out>">删除</a>
-						<button class="sui-btn btn-small J_addOneSupplier">添加</button>
+						<td>
+						<c:if test="${m.mType != 1}">
+						<a class="sui-btn btn-small" href="menuDel.do?id=<c:out value="${m.mId}"></c:out>">删除</a>
+						</c:if>
 						</td>
 					</tr>
 				</c:forEach>
@@ -96,7 +98,7 @@
 
 	<!-- Modal-->
 	<div id="myModal" tabindex="-1" role="dialog" data-hasfoot="false"
-		class="sui-modal hide fade">
+		class="sui-modal hide">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -145,9 +147,9 @@
 							</div>
 						</div>
 						<div style="text-align: center;">
-							<button type="submit" class="sui-btn btn-primary btn-large">提交</button>
+							<button type="submit" class="sui-btn btn-primary">提交</button>
 							<button type="button" data-dismiss="modal"
-								class="sui-btn btn-default btn-large">取消</button>
+								class="sui-btn btn-default">取消</button>
 						</div>
 					</form>
 

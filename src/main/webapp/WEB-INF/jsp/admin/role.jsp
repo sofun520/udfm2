@@ -9,13 +9,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-<link href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui.min.css"
+<!-- <link href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui.min.css"
 	rel="stylesheet">
 <script type="text/javascript"
 	src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
-	src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script>
-	
+	src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script> -->
+
+<link href="../sui/css/sui.css" rel="stylesheet">
+<script type="text/javascript"
+	src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="../sui/js/sui.min.js"></script>
+
+
+<link rel="stylesheet" href="../ztree/css/zTreeStyle/zTreeStyle.css"
+	type="text/css">
+<script type="text/javascript" src="../ztree/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="../ztree/js/jquery.ztree.core.js"></script>
+<script src="../ztree/js/jquery.ztree.all.js"></script>
+
 
 </head>
 <body>
@@ -33,7 +45,7 @@
 			<tr>
 				<th>＃</th>
 				<th>角色名称</th>
-				<th>添加时间</th>
+				<th>创建时间</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -50,10 +62,11 @@
 						<td><c:out value="${r.rName}"></c:out></td>
 						<td><fmt:formatDate value="${r.rDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="roleDel.do?id=<c:out value="${r.rId}"></c:out>">删除</a>
-						<a href="#" data-toggle="modal" data-target="#myModal2"
-			data-keyboard="false" data-backdrop="false">配置菜单</a>
-						</td>
+						<td><a href="roleDel.do?id=<c:out value="${r.rId}"></c:out>"
+							class="sui-btn btn-small">删除</a> <a href="#" data-toggle="modal"
+							onclick="openDialog('${r.rId}','${r.rName}')"
+							data-target="#myModal2" data-keyboard="false"
+							data-backdrop="false" class="sui-btn btn-small">配置菜单</a></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -96,7 +109,7 @@
 
 	<!-- Modal-->
 	<div id="myModal" tabindex="-1" role="dialog" data-hasfoot="false"
-		class="sui-modal hide fade">
+		class="sui-modal hide">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -109,8 +122,8 @@
 						<div class="msg-con">填写系统角色属性</div>
 						<s class="msg-icon"></s>
 					</div>
-					<form class="sui-form form-horizontal sui-validate" action="roleAdd.do"
-						method="post">
+					<form class="sui-form form-horizontal sui-validate"
+						action="roleAdd.do" method="post">
 						<div class="control-group">
 							<label for="inputEmail" class="control-label">角色名称：</label>
 							<div class="controls">
@@ -119,9 +132,9 @@
 							</div>
 						</div>
 						<div style="text-align: center;">
-							<button type="submit" class="sui-btn btn-primary btn-large">提交</button>
+							<button type="submit" class="sui-btn btn-primary">提交</button>
 							<button type="button" data-dismiss="modal"
-								class="sui-btn btn-default btn-large">取消</button>
+								class="sui-btn btn-default">取消</button>
 						</div>
 					</form>
 
@@ -131,9 +144,9 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="myModal2" tabindex="-1" role="dialog" data-hasfoot="false"
-		class="sui-modal hide fade">
+		class="sui-modal hide" style="">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -143,77 +156,78 @@
 				</div>
 				<div class="modal-body">
 					<div class="sui-msg msg-block msg-default msg-tips">
-						<div class="msg-con">为角色配置菜单</div>
+						<div class="msg-con">
+							为角色[<span id="roleName"></span>]配置菜单(角色ID：<span id="roleId"></span>)
+						</div>
 						<s class="msg-icon"></s>
 					</div>
-					<div id="treeDemo"></div>
-					<div style="text-align: center;">
-							<button type="submit" class="sui-btn btn-primary btn-large">提交</button>
-							<button type="button" data-dismiss="modal"
-								class="sui-btn btn-default btn-large">取消</button>
+					<div class="content_wrap">
+						<div class="zTreeDemoBackground left">
+							<ul id="treeDemo" class="ztree"></ul>
 						</div>
+					</div>
+					<div style="text-align: center;"></div>
 				</div>
-				<!-- <div class="modal-footer">
-				</div> -->
+				<div class="modal-footer">
+					<button type="button" class="sui-btn btn-primary"
+						onclick="regist()">提交</button>
+					<button type="button" data-dismiss="modal"
+						class="sui-btn btn-default">取消</button>
+				</div>
 			</div>
 		</div>
 	</div>
 
-<SCRIPT type="text/javascript">
-		
-		var setting = {	};
 
-		var zNodes =[
-			{ name:"父节点1 - 展开", open:true,
-				children: [
-					{ name:"父节点11 - 折叠",
-						children: [
-							{ name:"叶子节点111"},
-							{ name:"叶子节点112"},
-							{ name:"叶子节点113"},
-							{ name:"叶子节点114"}
-						]},
-					{ name:"父节点12 - 折叠",
-						children: [
-							{ name:"叶子节点121"},
-							{ name:"叶子节点122"},
-							{ name:"叶子节点123"},
-							{ name:"叶子节点124"}
-						]},
-					{ name:"父节点13 - 没有子节点", isParent:true}
-				]},
-			{ name:"父节点2 - 折叠",
-				children: [
-					{ name:"父节点21 - 展开", open:true,
-						children: [
-							{ name:"叶子节点211"},
-							{ name:"叶子节点212"},
-							{ name:"叶子节点213"},
-							{ name:"叶子节点214"}
-						]},
-					{ name:"父节点22 - 折叠",
-						children: [
-							{ name:"叶子节点221"},
-							{ name:"叶子节点222"},
-							{ name:"叶子节点223"},
-							{ name:"叶子节点224"}
-						]},
-					{ name:"父节点23 - 折叠",
-						children: [
-							{ name:"叶子节点231"},
-							{ name:"叶子节点232"},
-							{ name:"叶子节点233"},
-							{ name:"叶子节点234"}
-						]}
-				]},
-			{ name:"父节点3 - 没有子节点", isParent:true}
+	<SCRIPT type="text/javascript">
+		var setting = {
+			check : {
+				enable : true
+			},
+			data : {
+				simpleData : {
+					enable : true
+				}
+			}
+		};
 
-		];
+		var myModal2=$("#myModal2");
+		var treeObj;
+		function openDialog(id, name) {
+			$("#roleName").html(name);
+			$("#roleId").html(id);
+			$.get('roleMenu.do?roleId=' + id, function(data) {
+				treeObj = $.fn.zTree.init($("#treeDemo"), setting, data.data);
+				treeObj.expandAll(true);
+			});
+			
+			//myModal2.show();
+		}
 
-		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-		});
-		
+		function regist() {
+			var roleId = $("#roleId").html();
+			var menuId = '';
+			nodes = treeObj.getCheckedNodes(true);
+			for (var i = 0; i < nodes.length; i++) {
+				if (i == nodes.length - 1) {
+					menuId += nodes[i].id;
+				} else {
+					menuId += nodes[i].id + ',';
+				}
+			}
+			
+			$.post('addRoleMenu.do',{roleId:roleId,rmMenuIds:menuId},function(data){
+				if(data.success=='0'){
+					alert('配制成功');
+					$.alert('配制成功');
+				}else{
+					alert('配置失败');
+					$.alert('配置失败');
+				}
+			});
+			
+			myModal2.hide();
+		}
 	</SCRIPT>
 </body>
 </html>

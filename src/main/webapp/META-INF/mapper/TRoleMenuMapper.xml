@@ -6,6 +6,13 @@
 		<result column="RA_ROLE_ID" property="raRoleId" jdbcType="INTEGER" />
 		<result column="RA_MENU_ID" property="raMenuId" jdbcType="INTEGER" />
 	</resultMap>
+	
+	<resultMap id="BaseResultMap2" type="cn.springmvc.model.RoleMenuApi">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="pId" property="pId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="checked" property="checked" jdbcType="VARCHAR" />
+	</resultMap>
 
 	<sql id="Base_Column_List">
 		RA_ID, RA_ROLE_ID, RA_MENU_ID
@@ -30,6 +37,36 @@
 		where
 		RA_ID = #{raId,jdbcType=INTEGER}
 	</delete>
+	
+	<select id="queryMenu" resultMap="BaseResultMap2" parameterType="java.util.Map">
+		SELECT
+			m.M_ID AS id,
+			CASE
+		WHEN m.M_PARENT IS NOT NULL THEN
+			m.M_PARENT
+		WHEN m.M_PARENT IS NULL THEN
+			'0'
+		END AS pId,
+		 m.M_NAME AS `name`,
+		 CASE
+		WHEN rm.RA_MENU_ID IS NOT NULL THEN
+			'true'
+		WHEN rm.RA_MENU_ID IS NULL THEN
+			'false'
+		END AS `checked`
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					`t_menu`
+				WHERE
+					M_TYPE = '2'
+			) AS m
+		LEFT OUTER JOIN t_role_menu rm ON m.M_ID = rm.RA_MENU_ID
+		AND rm.RA_ROLE_ID = #{roleId}
+		AND m.M_TYPE = '2'
+	</select>
 
 
 	<insert id="insert" parameterType="cn.springmvc.model.TRoleMenu">
@@ -70,5 +107,19 @@
 		</set>
 		where RA_ID = #{raId,jdbcType=INTEGER}
 	</update>
+	
+	<delete id="deleteByMap" parameterType="java.util.Map">
+		delete from t_role_menu
+		where
+		RA_ROLE_ID = #{roleId}
+	</delete>
+<!-- [{"raMenuId":8,"raRoleId":1},{"raMenuId":9,"raRoleId":1}] -->
+	<insert id="insertList" parameterType="java.util.Map">
+		insert into t_role_menu (RA_ROLE_ID,RA_MENU_ID) values
+		<foreach collection="roleMenuLsit" item="item" index="index"
+			separator=",">
+			(#{item.raRoleId,jdbcType=INTEGER},#{item.raMenuId,jdbcType=INTEGER})
+		</foreach>
+	</insert>
 
 </mapper>
