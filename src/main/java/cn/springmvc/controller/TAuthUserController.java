@@ -1,7 +1,6 @@
 package cn.springmvc.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import cn.springmvc.model.TAuthUser;
 import cn.springmvc.service.TAuthUserService;
 import cn.springmvc.util.Const;
+import cn.springmvc.util.MD5Util;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -27,12 +28,12 @@ public class TAuthUserController {
 
 	@RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject checkLogin(TAuthUser user, HttpServletRequest request) {
+	public JSONObject adminCheckLogin(TAuthUser user, HttpServletRequest request) {
 		JSONObject data = new JSONObject();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("username", user.getUsername());
-			map.put("password", user.getPassword());
+			map.put("password", MD5Util.md5(user.getPassword()));
 			TAuthUser auser = service.checkLogin(map);
 			if (auser != null) {
 				HttpSession session = request.getSession();
@@ -50,6 +51,15 @@ public class TAuthUserController {
 			data.put("message", Const.getErrDes(Const.INNER_ERROR));
 		}
 		return data;
+	}
+
+	@RequestMapping("/logout")
+	public ModelAndView adminLogout(HttpServletRequest request) {
+		String redirectUrl = request.getParameter("url");
+		HttpSession session = request.getSession();
+		session.setAttribute("user", null);
+		session.invalidate();
+		return new ModelAndView("redirect:" + redirectUrl);
 	}
 
 }

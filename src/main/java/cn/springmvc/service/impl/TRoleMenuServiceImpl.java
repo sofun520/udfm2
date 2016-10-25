@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import cn.springmvc.dao.TRoleMenuMapper;
 import cn.springmvc.model.RoleMenuApi;
+import cn.springmvc.model.TMenu;
 import cn.springmvc.model.TRoleMenu;
 import cn.springmvc.service.TRoleMenuService;
 
@@ -60,6 +61,11 @@ public class TRoleMenuServiceImpl implements TRoleMenuService {
 	@Override
 	public void insertList(Map<String, Object> map) {
 		dao.insertList(map);
+	}
+
+	@Override
+	public List<TMenu> roleMenu(Map<String, Object> map) {
+		return dao.roleMenu(map);
 	}
 
 }

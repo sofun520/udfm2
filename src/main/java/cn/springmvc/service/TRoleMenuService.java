@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.springmvc.model.RoleMenuApi;
+import cn.springmvc.model.TMenu;
 import cn.springmvc.model.TRoleMenu;
 
 public interface TRoleMenuService extends BaseService<TRoleMenu> {
@@ -13,5 +14,7 @@ public interface TRoleMenuService extends BaseService<TRoleMenu> {
 	void deleteByMap(Map<String, Object> map);
 
 	void insertList(Map<String, Object> map);
+
+	List<TMenu> roleMenu(Map<String, Object> map);
 
 }

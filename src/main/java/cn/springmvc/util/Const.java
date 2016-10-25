@@ -9,11 +9,13 @@ public class Const {
 	public static int FAILED = 1;
 	public static String INNER_ERROR = "100000";
 	public static String WRONG_USER_OR_PASS = "100001";
+	public static String PARAM_NULL = "100002";
 
 	public static String getErrDes(String errCode) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(INNER_ERROR, "内部程序错误");
 		map.put(WRONG_USER_OR_PASS, "用户名或密码错误");
+		map.put(PARAM_NULL, "参数为空");
 		return (String) map.get(errCode);
 	}
 }

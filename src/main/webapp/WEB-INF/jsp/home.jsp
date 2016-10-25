@@ -141,7 +141,7 @@ i {
 				</ul>
 			</div>
 			<div class="top_menu_right">
-				${authUser.username}&nbsp;&nbsp;<a href="../logout.do?url=adminLogin.do">注销</a>
+				${authUser.username}&nbsp;&nbsp;<a href="../logout.do?url=login.do">注销</a>
 			</div>
 		</div>
 	</div>
@@ -177,7 +177,7 @@ i {
 		function getPMenu() {
 			$
 					.get(
-							"../api/menu/query.do?mType=1",
+							"../api/roleMenu/query.do?roleId=${authUser.roleId}&mType=2",
 							function(data) {
 								var ht = '';
 								var menuId = '';
@@ -202,7 +202,7 @@ i {
 		function getSubMenu(id) {
 			$
 					.get(
-							"../api/menu/query.do?mType=1&mParent=" + id,
+							"../api/roleMenu/query.do?roleId=${authUser.roleId}&mType=2&mParent=" + id,
 							function(data) {
 								var ht = '';
 								var murl = '';

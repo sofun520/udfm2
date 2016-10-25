@@ -13,6 +13,8 @@ public class TAuthUser {
 
     private String email;
 
+    private Integer roleId;
+
     private Date registDate;
 
     public Integer getId() {
@@ -53,6 +55,14 @@ public class TAuthUser {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public Date getRegistDate() {

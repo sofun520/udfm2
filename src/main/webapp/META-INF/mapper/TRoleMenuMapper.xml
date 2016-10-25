@@ -6,12 +6,21 @@
 		<result column="RA_ROLE_ID" property="raRoleId" jdbcType="INTEGER" />
 		<result column="RA_MENU_ID" property="raMenuId" jdbcType="INTEGER" />
 	</resultMap>
-	
+
 	<resultMap id="BaseResultMap2" type="cn.springmvc.model.RoleMenuApi">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="pId" property="pId" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="checked" property="checked" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap3" type="cn.springmvc.model.TMenu">
+		<id column="M_ID" property="mId" jdbcType="INTEGER" />
+		<result column="M_NAME" property="mName" jdbcType="VARCHAR" />
+		<result column="M_URL" property="mUrl" jdbcType="VARCHAR" />
+		<result column="M_PARENT" property="mParent" jdbcType="INTEGER" />
+		<result column="M_TYPE" property="mType" jdbcType="CHAR" />
+		<result column="M_DATE" property="mDate" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -37,34 +46,58 @@
 		where
 		RA_ID = #{raId,jdbcType=INTEGER}
 	</delete>
-	
+
+	<select id="roleMenu" parameterType="java.util.Map" resultMap="BaseResultMap3">
+		SELECT
+		tm.*
+		FROM
+		t_role_menu trm,
+		t_menu tm
+		WHERE
+		trm.RA_MENU_ID = tm.M_ID
+		<if test="mType != null and mType != ''">
+			and tm.M_TYPE = #{mType}
+		</if>
+		<if test="roleId != null and roleId != ''">
+			and trm.RA_ROLE_ID = #{roleId}
+		</if>
+		<if test="mParent != null and mParent != ''">
+			and tm.M_PARENT = #{mParent}
+		</if>
+		<if test="mParent == null or mParent == ''">
+			and tm.M_PARENT is null
+		</if>
+		
+	</select>
+
 	<select id="queryMenu" resultMap="BaseResultMap2" parameterType="java.util.Map">
 		SELECT
-			m.M_ID AS id,
-			CASE
+		m.M_ID AS id,
+		CASE
 		WHEN m.M_PARENT IS NOT NULL THEN
-			m.M_PARENT
+		m.M_PARENT
 		WHEN m.M_PARENT IS NULL THEN
-			'0'
+		'0'
 		END AS pId,
-		 m.M_NAME AS `name`,
-		 CASE
+		m.M_NAME AS `name`,
+		CASE
 		WHEN rm.RA_MENU_ID IS NOT NULL THEN
-			'true'
+		'true'
 		WHEN rm.RA_MENU_ID IS NULL THEN
-			'false'
+		'false'
 		END AS `checked`
 		FROM
-			(
-				SELECT
-					*
-				FROM
-					`t_menu`
-				WHERE
-					M_TYPE = '2'
-			) AS m
+		(
+		SELECT
+		*
+		FROM
+		`t_menu`
+		WHERE
+		M_TYPE = '2'
+		) AS m
 		LEFT OUTER JOIN t_role_menu rm ON m.M_ID = rm.RA_MENU_ID
-		AND rm.RA_ROLE_ID = #{roleId}
+		AND
+		rm.RA_ROLE_ID = #{roleId}
 		AND m.M_TYPE = '2'
 	</select>
 
@@ -107,13 +140,13 @@
 		</set>
 		where RA_ID = #{raId,jdbcType=INTEGER}
 	</update>
-	
+
 	<delete id="deleteByMap" parameterType="java.util.Map">
 		delete from t_role_menu
 		where
 		RA_ROLE_ID = #{roleId}
 	</delete>
-<!-- [{"raMenuId":8,"raRoleId":1},{"raMenuId":9,"raRoleId":1}] -->
+
 	<insert id="insertList" parameterType="java.util.Map">
 		insert into t_role_menu (RA_ROLE_ID,RA_MENU_ID) values
 		<foreach collection="roleMenuLsit" item="item" index="index"

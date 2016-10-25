@@ -7,11 +7,12 @@
 		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
 		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
 		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
 		<result column="REGIST_DATE" property="registDate" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		ID, USERNAME, PASSWORD, MOBILE, EMAIL, REGIST_DATE
+		ID, USERNAME, PASSWORD, MOBILE, EMAIL, ROLE_ID, REGIST_DATE
 	</sql>
 
 	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -59,6 +60,9 @@
 			<if test="email != null">
 				EMAIL,
 			</if>
+			<if test="roleId != null">
+				ROLE_ID,
+			</if>
 			<if test="registDate != null">
 				REGIST_DATE,
 			</if>
@@ -78,6 +82,9 @@
 			</if>
 			<if test="email != null">
 				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=INTEGER},
 			</if>
 			<if test="registDate != null">
 				#{registDate,jdbcType=TIMESTAMP},
@@ -99,6 +106,9 @@
 			</if>
 			<if test="email != null">
 				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				ROLE_ID = #{roleId,jdbcType=INTEGER},
 			</if>
 			<if test="registDate != null">
 				REGIST_DATE = #{registDate,jdbcType=TIMESTAMP},

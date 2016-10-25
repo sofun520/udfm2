@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import cn.springmvc.model.RoleMenuApi;
+import cn.springmvc.model.TMenu;
 import cn.springmvc.model.TRoleMenu;
+import cn.springmvc.response.ResponseData;
 import cn.springmvc.service.TRoleMenuService;
+import cn.springmvc.util.Const;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -88,4 +93,30 @@ public class RoleMenuController {
 		return data;
 	}
 
+	@RequestMapping("/api/roleMenu/query")
+	@ResponseBody
+	public ResponseData getRootMenu(HttpServletRequest request) {
+		ResponseData res = new ResponseData();
+		try {
+			if (!StringUtils.isEmpty(request.getParameter("roleId"))) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("mType", request.getParameter("mType"));
+				map.put("mParent", request.getParameter("mParent"));
+				map.put("roleId", request.getParameter("roleId"));
+				List<TMenu> list = service.roleMenu(map);
+				res.setSuccess(Const.SUCCESS);
+				res.setData(list);
+			} else {
+				res.setSuccess(Const.FAILED);
+				res.setErrCode(Const.INNER_ERROR);
+				res.setMessage(Const.getErrDes(Const.INNER_ERROR));
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			res.setSuccess(Const.FAILED);
+			res.setErrCode(Const.INNER_ERROR);
+			res.setMessage(Const.getErrDes(Const.INNER_ERROR));
+		}
+		return res;
+	}
 }
