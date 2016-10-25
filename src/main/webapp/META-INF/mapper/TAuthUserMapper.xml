@@ -26,7 +26,11 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_auth_user
-		where USERNAME=#{username} and PASSWORD=#{password}
+		where 
+		USERNAME=#{username} and PASSWORD=#{password}
+		<if test="roleId != null and roleId != ''">
+			and ROLE_ID = #{roleId}
+		</if>
 	</select>
 
 	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">

@@ -56,7 +56,7 @@
 						var password = $("#password").val();
 						if (username != null && password != null
 								&& username != '' && password != '') {
-							$.post("checkLogin.do", {
+							$.post("checkLogin.do?userType=u", {
 								username : username,
 								password : password
 							}, function(data) {

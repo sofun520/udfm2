@@ -21,22 +21,19 @@
 	<div style="margin-bottom: 10px;">
 		<button data-toggle="modal" data-target="#myModal"
 			data-keyboard="false" data-backdrop="false"
-			class="sui-btn btn-primary btn-lg">添加接口</button>
+			class="sui-btn btn-primary btn-lg">添加角色</button>
 	</div>
 	<div class="sui-msg msg-block msg-default msg-tips">
-		<div class="msg-con">接口列表</div>
+		<div class="msg-con">系统角色列表</div>
 		<s class="msg-icon"></s>
 	</div>
 	<table class="sui-table table-bordered">
 		<thead>
 			<tr>
 				<th>＃</th>
-				<th>接口名称</th>
-				<th>接口url</th>
-				<th>请求类型</th>
-				<th>请求参数</th>
-				<th>请求计数</th>
-				<th>接口描述</th>
+				<th>短信枚举CODE</th>
+				<th>短信枚举KEY</th>
+				<th>短信枚举VALUE</th>
 				<th>添加时间</th>
 				<th>操作</th>
 			</tr>
@@ -44,22 +41,20 @@
 		<tbody>
 			<c:if test="${fn:length(list)<=0}">
 				<tr>
-					<td colspan="9" align="center">没有数据</td>
+					<td colspan="4" align="center">没有数据</td>
 				</tr>
 			</c:if>
 			<c:if test="${fn:length(list)>0}">
-				<c:forEach var="a" items="${list}" varStatus="x">
+				<c:forEach var="e" items="${list}" varStatus="x">
 					<tr>
 						<td><c:out value="${x.count}"></c:out></td>
-						<td><c:out value="${a.aName}"></c:out></td>
-						<td><c:out value="${a.aUrl}"></c:out></td>
-						<td><c:if test="${a.aRequestType==1}">GET</c:if><c:if test="${a.aRequestType==2}">POST</c:if></td>
-						<td><c:out value="${a.aParam}"></c:out></td>
-						<td><c:out value="${a.aCount}"></c:out></td>
-						<td><c:out value="${a.aDescription}"></c:out></td>
-						<td><fmt:formatDate value="${a.aDate}" type="date"
+						<td><c:out value="${e.eCode}"></c:out></td>
+						<td><c:out value="${e.eKey}"></c:out></td>
+						<td><c:out value="${e.eValue}"></c:out></td>
+						<td><fmt:formatDate value="${e.eDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="apiDel.do?id=<c:out value="${a.aId}"></c:out>">删除</a>
+						<td><a href="enumDel.do?id=<c:out value="${e.eId}"></c:out>">删除</a>
+						<a href="enumEdit.do?id=<c:out value="${e.eId}"></c:out>">修改</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -109,55 +104,26 @@
 				<div class="modal-header">
 					<button type="button" data-dismiss="modal" aria-hidden="true"
 						class="sui-close">×</button>
-					<h4 id="myModalLabel" class="modal-title">添加接口信息</h4>
+					<h4 id="myModalLabel" class="modal-title">添加角色</h4>
 				</div>
 				<div class="modal-body">
 					<div class="sui-msg msg-block msg-default msg-tips">
-						<div class="msg-con">填写接口信息属性</div>
+						<div class="msg-con">填写系统角色属性</div>
 						<s class="msg-icon"></s>
 					</div>
-					<form class="sui-form form-horizontal sui-validate" action="apiAdd.do"
-						method="post">
+					<form class="sui-form form-horizontal sui-validate"
+						action="roleAdd.do" method="post">
 						<div class="control-group">
-							<label for="inputEmail" class="control-label">接口名称：</label>
+							<label for="inputEmail" class="control-label">角色名称：</label>
 							<div class="controls">
-								<input type="text" id="inputEmail" name="aName" placeholder=""
+								<input type="text" id="inputEmail" name="rName" placeholder=""
 									data-rules="required">
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="inputEmail" class="control-label">接口url：</label>
-							<div class="controls">
-								<input type="text" id="inputEmail" name="aUrl" placeholder=""
-									data-rules="required">
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="inputEmail" class="control-label">请求类型：</label>
-							<div class="controls">
-								<select name="aRequestType" data-rules="required" style="width: 155px;">
-									<option value="1">GET</option>
-									<option value="2">POST</option>
-								</select>
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="inputEmail" class="control-label">请求参数：</label>
-							<div class="controls">
-								<input type="text" id="inputEmail" name="aParam" placeholder=""
-									data-rules="required">
-							</div>
-						</div>
-						<div class="control-group">
-							<label for="inputEmail" class="control-label">接口描述：</label>
-							<div class="controls">
-								<textarea rows="" cols="30" name="aDescription" data-rules="required"></textarea>
 							</div>
 						</div>
 						<div style="text-align: center;">
-							<button type="submit" class="sui-btn btn-primary">提交</button>
+							<button type="submit" class="sui-btn btn-primary btn-large">提交</button>
 							<button type="button" data-dismiss="modal"
-								class="sui-btn btn-default">取消</button>
+								class="sui-btn btn-default btn-large">取消</button>
 						</div>
 					</form>
 

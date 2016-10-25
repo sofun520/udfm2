@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +35,10 @@ public class TAuthUserController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("username", user.getUsername());
 			map.put("password", MD5Util.md5(user.getPassword()));
+			if (!StringUtils.isEmpty(request.getParameter("userType"))) {
+				// 管理员角色校验
+				map.put("roleId", "1");
+			}
 			TAuthUser auser = service.checkLogin(map);
 			if (auser != null) {
 				HttpSession session = request.getSession();
