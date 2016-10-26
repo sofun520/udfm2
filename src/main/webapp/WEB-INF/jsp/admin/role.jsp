@@ -9,17 +9,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-<!-- <link href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui.min.css"
+<link href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui.min.css"
 	rel="stylesheet">
 <script type="text/javascript"
 	src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
-	src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script> -->
+	src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script>
 
-<link href="../sui/css/sui.css" rel="stylesheet">
+<!-- <link href="../sui/css/sui.css" rel="stylesheet">
 <script type="text/javascript"
 	src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="../sui/js/sui.min.js"></script>
+<script type="text/javascript" src="../sui/js/sui.min.js"></script> -->
 
 
 <link rel="stylesheet" href="../ztree/css/zTreeStyle/zTreeStyle.css"
@@ -166,7 +166,6 @@
 							<ul id="treeDemo" class="ztree"></ul>
 						</div>
 					</div>
-					<div style="text-align: center;"></div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="sui-btn btn-primary"

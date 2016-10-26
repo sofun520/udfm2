@@ -8123,7 +8123,7 @@ input[type="submit"].btn.btn-mini {
 }
 .sui-modal {
   position: fixed;
-  top: 30%;
+  top: 50%;
   left: 50%;
   margin-left: -220px;
   z-index: 1050;

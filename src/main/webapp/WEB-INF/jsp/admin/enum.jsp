@@ -47,7 +47,7 @@
 		<tbody>
 			<c:if test="${fn:length(list)<=0}">
 				<tr>
-					<td colspan="4" align="center">没有数据</td>
+					<td colspan="7" align="center">没有数据</td>
 				</tr>
 			</c:if>
 			<c:if test="${fn:length(list)>0}">
