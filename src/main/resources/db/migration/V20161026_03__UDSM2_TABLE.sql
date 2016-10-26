@@ -1,0 +1,1 @@
+alter table `t_enum` add COLUMN M_DESCRIPTION VARCHAR(50);

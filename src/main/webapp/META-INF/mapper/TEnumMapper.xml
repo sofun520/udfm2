@@ -7,10 +7,12 @@
 		<result column="E_KEY" property="eKey" jdbcType="VARCHAR" />
 		<result column="E_VALUE" property="eValue" jdbcType="VARCHAR" />
 		<result column="E_DATE" property="eDate" jdbcType="TIMESTAMP" />
+		<result column="E_DESCRIPTION" property="eDescription"
+			jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		E_ID, E_CODE, E_KEY, E_VALUE, E_DATE
+		E_ID, E_CODE, E_KEY, E_VALUE, E_DATE, E_DESCRIPTION
 	</sql>
 
 	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -20,15 +22,10 @@
 		where E_ID = #{eId,jdbcType=INTEGER}
 	</select>
 
-
-	<select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select
 		<include refid="Base_Column_List" />
 		from t_enum
-		where 1=1
-		<if test="eCode != null and eCode != ''">
-			and E_CODE = #{eCode}
-		</if>
 	</select>
 
 	<delete id="delete" parameterType="java.lang.Integer">
@@ -36,6 +33,7 @@
 		where E_ID =
 		#{eId,jdbcType=INTEGER}
 	</delete>
+
 
 
 	<insert id="insert" parameterType="cn.springmvc.model.TEnum">
@@ -56,6 +54,9 @@
 			<if test="eDate != null">
 				E_DATE,
 			</if>
+			<if test="eDescription != null">
+				E_DESCRIPTION,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="eId != null">
@@ -72,6 +73,9 @@
 			</if>
 			<if test="eDate != null">
 				#{eDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="eDescription != null">
+				#{eDescription,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -90,6 +94,9 @@
 			</if>
 			<if test="eDate != null">
 				E_DATE = #{eDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="eDescription != null">
+				E_DESCRIPTION = #{eDescription,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where E_ID = #{eId,jdbcType=INTEGER}

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,17 @@ public class RoleController {
 		try {
 			role.setrDate(new Date());
 			service.insert(role);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return new ModelAndView("redirect:/admin/role.do");
+	}
+
+	@RequestMapping("/admin/roleDel")
+	public ModelAndView roleDel(HttpServletRequest request) {
+		try {
+			int id = Integer.parseInt(request.getParameter("id"));
+			service.delete(id);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

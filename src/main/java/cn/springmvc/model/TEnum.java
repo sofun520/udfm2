@@ -13,6 +13,8 @@ public class TEnum {
 
     private Date eDate;
 
+    private String eDescription;
+
     public Integer geteId() {
         return eId;
     }
@@ -51,5 +53,13 @@ public class TEnum {
 
     public void seteDate(Date eDate) {
         this.eDate = eDate;
+    }
+
+    public String geteDescription() {
+        return eDescription;
+    }
+
+    public void seteDescription(String eDescription) {
+        this.eDescription = eDescription == null ? null : eDescription.trim();
     }
 }
