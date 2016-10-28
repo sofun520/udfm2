@@ -52,7 +52,7 @@ CREATE TABLE `t_auth_user` (
 -- ----------------------------
 -- Records of t_auth_user
 -- ----------------------------
-INSERT INTO `t_auth_user` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '154545454', '3242343@qq.com', '2016-10-20 10:28:58', null);
+INSERT INTO `t_auth_user` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '154545454', '3242343@qq.com', '2016-10-20 10:28:58', '1');
 INSERT INTO `t_auth_user` VALUES ('2', 'testtest', '21232f297a57a5a743894a0e4a801fc3', '18694054311', '402864040@qq.com', '2016-10-25 17:11:11', '4');
 
 -- ----------------------------

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.MaxCodeMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.MaxCode">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="max" property="max" jdbcType="INTEGER" />
+		<result column="date" property="date" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<parameterMap type="java.util.Map" id="pMap">
+		<parameter property="prefix" jdbcType="VARCHAR" mode="IN" />
+		<parameter property="xcode" jdbcType="VARCHAR" mode="OUT" />
+	</parameterMap>
+
+	<select id="queryCode" statementType="CALLABLE" parameterMap="pMap">
+		{call
+		serialno(?,?)}
+	</select>
+
+
+</mapper>
