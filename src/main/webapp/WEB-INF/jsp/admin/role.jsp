@@ -187,7 +187,8 @@
 				simpleData : {
 					enable : true
 				}
-			}
+			},
+			view: {showIcon: false}
 		};
 
 		var myModal2=$("#myModal2");

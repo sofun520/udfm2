@@ -13,7 +13,7 @@ CREATE TABLE `t_max_code` (
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `serialno`$$
-create PROCEDURE serialno(in prefix char(2),out xcode VARCHAR(13))
+create PROCEDURE serialno(in prefix char(2),out xcode VARCHAR(15))
 BEGIN
 DECLARE now_date VARCHAR(8);
 DECLARE t_max_code INT;
