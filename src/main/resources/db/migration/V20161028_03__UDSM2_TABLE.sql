@@ -1,0 +1,1 @@
+alter table `t_auth_user` add COLUMN STATUS char(1) COMMENT '0:删除,1:正常,2:禁用,3:待激活' DEFAULT '1';
