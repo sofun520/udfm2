@@ -14,6 +14,11 @@
 <script type="text/javascript"
 	src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script>
 <style type="text/css">
+
+body{
+	background-color: #f5f5f5;
+}
+
 .top {
 	width: 1100px;
 	height: 60px;
@@ -34,12 +39,14 @@
 	border-bottom: 1px solid #efefef;
 	float: left;
 	padding: 0px;
+	background-color: #eaedf4;
 }
 
 .main_content {
 	width: 870px;
 	padding: 10px 10px 0 10px;
 	float: left;
+	background-color: #ffffff;
 }
 
 #toccnt {
