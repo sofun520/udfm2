@@ -109,7 +109,7 @@
 					<form class="sui-form form-horizontal sui-validate" action="roleAdd.do"
 						method="post">
 						<div class="control-group">
-							<label for="inputEmail" class="control-label">角色名称：</label>
+							<label for="inputEmail" class="control-label">11角色名称：</label>
 							<div class="controls">
 								<input type="text" id="inputEmail" name="rName" placeholder=""
 									data-rules="required">

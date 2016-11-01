@@ -106,13 +106,16 @@
 						<div class="msg-con">填写系统角色属性</div>
 						<s class="msg-icon"></s>
 					</div>
-					<form class="sui-form form-horizontal sui-validate" action="roleAdd.do"
-						method="post">
+					
+					<form class="sui-form form-horizontal sui-validate" action="../../api/file/upload.do"
+						method="post" enctype="multipart/form-data">
 						<div class="control-group">
-							<label for="inputEmail" class="control-label">角色名称：</label>
+							<label for="inputEmail" class="control-label">11角色名称：</label>
 							<div class="controls">
-								<input type="text" id="inputEmail" name="rName" placeholder=""
-									data-rules="required">
+								<input type="file" name="file" class="form-control input-sm"
+										id="inputEmail3" check-type="required"> <input
+										type="hidden" name="db" value="test"> <input
+										type="hidden" name="dbName" value="dbName">
 							</div>
 						</div>
 						<div style="text-align: center;">

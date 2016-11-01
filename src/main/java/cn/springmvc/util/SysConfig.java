@@ -1,62 +1,85 @@
 package cn.springmvc.util;
 
-public class SysConfig {
+public class SysConfig
+{
 
-	private String smsUrl;
+    private String smsUrl;
 
-	private String smsApikey;
+    private String smsApikey;
 
-	private String smsCodeTpl;
+    private String smsCodeTpl;
 
-	private String orderRemindTpl;
+    private String orderRemindTpl;
 
-	private String website;
+    private String website;
 
-	/**
-	 * @return the website
-	 */
-	public String getWebsite() {
-		return website;
-	}
+    private String attachDir;
 
-	/**
-	 * @param website
-	 *            the website to set
-	 */
-	public void setWebsite(String website) {
-		this.website = website;
-	}
+    public String getAttachDir()
+    {
+        return attachDir;
+    }
 
-	public String getOrderRemindTpl() {
-		return orderRemindTpl;
-	}
+    public void setAttachDir(String attachDir)
+    {
+        this.attachDir = attachDir;
+    }
 
-	public void setOrderRemindTpl(String orderRemindTpl) {
-		this.orderRemindTpl = orderRemindTpl;
-	}
+    /**
+     * @return the website
+     */
+    public String getWebsite()
+    {
+        return website;
+    }
 
-	public String getSmsCodeTpl() {
-		return smsCodeTpl;
-	}
+    /**
+     * @param website
+     *            the website to set
+     */
+    public void setWebsite(String website)
+    {
+        this.website = website;
+    }
 
-	public void setSmsCodeTpl(String smsCodeTpl) {
-		this.smsCodeTpl = smsCodeTpl;
-	}
+    public String getOrderRemindTpl()
+    {
+        return orderRemindTpl;
+    }
 
-	public String getSmsUrl() {
-		return smsUrl;
-	}
+    public void setOrderRemindTpl(String orderRemindTpl)
+    {
+        this.orderRemindTpl = orderRemindTpl;
+    }
 
-	public void setSmsUrl(String smsUrl) {
-		this.smsUrl = smsUrl;
-	}
+    public String getSmsCodeTpl()
+    {
+        return smsCodeTpl;
+    }
 
-	public String getSmsApikey() {
-		return smsApikey;
-	}
+    public void setSmsCodeTpl(String smsCodeTpl)
+    {
+        this.smsCodeTpl = smsCodeTpl;
+    }
 
-	public void setSmsApikey(String smsApikey) {
-		this.smsApikey = smsApikey;
-	}
+    public String getSmsUrl()
+    {
+        return smsUrl;
+    }
+
+    public void setSmsUrl(String smsUrl)
+    {
+        this.smsUrl = smsUrl;
+    }
+
+    public String getSmsApikey()
+    {
+        return smsApikey;
+    }
+
+    public void setSmsApikey(String smsApikey)
+    {
+        this.smsApikey = smsApikey;
+    }
 
 }

@@ -23,6 +23,7 @@
 		<property name="smsCodeTpl" value="${yunpian.code.tpl}" />
 		<property name="orderRemindTpl" value="${yunpian.orderRemind.tpl}" />
 		<property name="website" value="${config.website.url}" />
+		<property name="attachDir" value="${attach.dir}" />
 	</bean>
 
 
