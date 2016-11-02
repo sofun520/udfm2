@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+System.out.print("========"+basePath);
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,7 +36,8 @@
 		<thead>
 			<tr>
 				<th>＃</th>
-				<th>角色名称</th>
+				<th>附件名称</th>
+				<th>附件目录</th>
 				<th>添加时间</th>
 				<th>操作</th>
 			</tr>
@@ -43,13 +49,14 @@
 				</tr>
 			</c:if>
 			<c:if test="${fn:length(list)>0}">
-				<c:forEach var="r" items="${list}" varStatus="x">
+				<c:forEach var="t" items="${list}" varStatus="x">
 					<tr>
 						<td><c:out value="${x.count}"></c:out></td>
-						<td><c:out value="${r.rName}"></c:out></td>
-						<td><fmt:formatDate value="${r.rDate}" type="date"
+						<td><a href="${tenum.eValue}<c:out value="${t.tPath}"></c:out>/<c:out value="${t.tName}"></c:out>"><c:out value="${t.tName}"></c:out></a></td>
+						<td><c:out value="${t.tPath}"></c:out></td>
+						<td><fmt:formatDate value="${t.tDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="apiDel.do?id=<c:out value="${r.rId}"></c:out>">删除</a>
+						<td><a href="apiDel.do?id=<c:out value="${t.tId}"></c:out>">删除</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -74,7 +81,7 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><span>only淘宝商城官方旗舰店</span></td>
+				<td><span>only淘宝商城官方旗舰店</span>${basePath}--11</td>
 				<td><span>九牧官方旗舰店</span></td>
 				<td><span>企业</span></td>
 				<td><span class="distributor-num">432</span></td>
@@ -106,16 +113,13 @@
 						<div class="msg-con">填写系统角色属性</div>
 						<s class="msg-icon"></s>
 					</div>
-
-					<form class="sui-form form-horizontal sui-validate"
-						action="../../api/attach/upload.do" method="post"
-						enctype="multipart/form-data">
+					<form class="sui-form form-horizontal sui-validate" action="roleAdd.do"
+						method="post">
 						<div class="control-group">
-							<label for="inputEmail" class="control-label">11角色名称：</label>
+							<label for="inputEmail" class="control-label">角色名称：</label>
 							<div class="controls">
-								<input type="file" name="file" class="form-control input-sm"
-									id="inputEmail3" check-type="required"> <input
-									type="hidden" name="url" value="../../mvc/test1/query1.do">
+								<input type="text" id="inputEmail" name="rName" placeholder=""
+									data-rules="required">
 							</div>
 						</div>
 						<div style="text-align: center;">

@@ -1,34 +1,49 @@
 package cn.springmvc.controller;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.springmvc.model.TAttach;
+import cn.springmvc.model.TEnum;
+import cn.springmvc.service.MaxCodeService;
+import cn.springmvc.service.TAttachService;
+import cn.springmvc.service.TEnumService;
+import cn.springmvc.util.DateUtils;
 import cn.springmvc.util.SysConfig;
 
 import com.alibaba.fastjson.JSONObject;
 
 @Controller
-@RequestMapping("/api/file")
-public class UploadController implements ApplicationContextAware
+public class AttachController implements ApplicationContextAware
 {
 
     private ApplicationContext context;
 
-    @RequestMapping("/query")
-    @ResponseBody
-    public JSONObject query()
+    @Autowired
+    private TAttachService service;
+
+    @Autowired
+    private MaxCodeService codeService;
+
+    @Autowired
+    private TEnumService enumService;
+
+    public JSONObject query1()
     {
         JSONObject obj = new JSONObject();
         String path1 = System.getProperty("user.dir") + File.separator + "../webapps/upload/";
@@ -43,15 +58,30 @@ public class UploadController implements ApplicationContextAware
         return obj;
     }
 
-    @RequestMapping(value = "/upload")
+    @RequestMapping("/admin/attach")
+    public ModelAndView query()
+    {
+        Map<String, Object> context = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("eCode", "attachHost");
+        TEnum tenum = enumService.query(map).get(0);
+        List<TAttach> list = service.query(map);
+        context.put("list", list);
+        context.put("tenum", tenum);
+        return new ModelAndView("admin/attach", context);
+    }
+
+    @RequestMapping(value = "/api/attach/upload")
     public ModelAndView upload(@RequestParam(value = "file", required = false) MultipartFile file,
             HttpServletRequest request, ModelMap model)
     {
         SysConfig sysconfig = getConfig();
+        String url = request.getParameter("url");
+        String nowDate = DateUtils.getNowDate();
 
-        System.out.println("============" + request.getParameter("dbName"));
-
-        String path1 = System.getProperty("user.dir") + File.separator + sysconfig.getAttachDir();
+        // upload/20161101/IMG201611010001.jpg
+        String path1 = System.getProperty("user.dir") + File.separator + sysconfig.getAttachDir() + File.separator
+                + nowDate;
         File uploadFileDir = new File(path1);
         if (!uploadFileDir.exists())
         {
@@ -59,8 +89,14 @@ public class UploadController implements ApplicationContextAware
         }
 
         String fName = file.getOriginalFilename();
+        String suffix = fName.substring(fName.lastIndexOf("."));
+        String code = codeService.getCode("IM");
+        TAttach tattach = new TAttach();
+        tattach.settPath(nowDate);
+        tattach.settName(code + suffix);
+        service.insert(tattach);
 
-        File targetFile = new File(uploadFileDir, fName);
+        File targetFile = new File(uploadFileDir, code + suffix);
         if (!targetFile.exists())
         {
             targetFile.mkdirs();
@@ -80,7 +116,7 @@ public class UploadController implements ApplicationContextAware
         {
             e.printStackTrace();
         }
-        return new ModelAndView("redirect:../../mvc/test1/query1.do");
+        return new ModelAndView("redirect:" + url);
     }
 
     public SysConfig getConfig()
@@ -92,5 +128,12 @@ public class UploadController implements ApplicationContextAware
     public void setApplicationContext(ApplicationContext context) throws BeansException
     {
         this.context = context;
+    }
+
+    public static void main(String[] args)
+    {
+        String fName = "231232.txt";
+        String suffix = fName.substring(fName.lastIndexOf("."));
+        System.out.println(suffix);
     }
 }

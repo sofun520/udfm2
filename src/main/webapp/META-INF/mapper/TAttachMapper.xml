@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.TAttachMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.TAttach">
+		<id column="T_ID" property="tId" jdbcType="INTEGER" />
+		<result column="T_NAME" property="tName" jdbcType="VARCHAR" />
+		<result column="T_PATH" property="tPath" jdbcType="VARCHAR" />
+		<result column="T_DATE" property="tDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		T_ID, T_NAME, T_PATH, T_DATE
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_attach
+		where T_ID = #{tId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from t_attach
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from t_attach
+		where T_ID
+		= #{tId,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="cn.springmvc.model.TAttach">
+		insert into t_attach
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="tId != null">
+				T_ID,
+			</if>
+			<if test="tName != null">
+				T_NAME,
+			</if>
+			<if test="tPath != null">
+				T_PATH,
+			</if>
+			<if test="tDate != null">
+				T_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="tId != null">
+				#{tId,jdbcType=INTEGER},
+			</if>
+			<if test="tName != null">
+				#{tName,jdbcType=VARCHAR},
+			</if>
+			<if test="tPath != null">
+				#{tPath,jdbcType=VARCHAR},
+			</if>
+			<if test="tDate != null">
+				#{tDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.TAttach">
+		update t_attach
+		<set>
+			<if test="tName != null">
+				T_NAME = #{tName,jdbcType=VARCHAR},
+			</if>
+			<if test="tPath != null">
+				T_PATH = #{tPath,jdbcType=VARCHAR},
+			</if>
+			<if test="tDate != null">
+				T_DATE = #{tDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where T_ID = #{tId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

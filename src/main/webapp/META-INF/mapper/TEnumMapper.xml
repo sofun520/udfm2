@@ -26,6 +26,10 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_enum
+		where 1=1
+		<if test="eCode != null and eCode != ''">
+			and E_CODE = #{eCode}
+		</if>
 	</select>
 
 	<delete id="delete" parameterType="java.lang.Integer">
