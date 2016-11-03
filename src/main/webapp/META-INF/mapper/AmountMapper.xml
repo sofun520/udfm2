@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.AmountMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.Amount">
+		<id column="A_ID" property="aId" jdbcType="INTEGER" />
+		<result column="A_TYPE" property="aType" jdbcType="CHAR" />
+		<result column="A_SUM" property="aSum" jdbcType="DECIMAL" />
+		<result column="A_WAYS" property="aWays" jdbcType="CHAR" />
+		<result column="A_CARD_ID" property="aCardId" jdbcType="INTEGER" />
+		<result column="A_IMG" property="aImg" jdbcType="INTEGER" />
+		<result column="A_DATE" property="aDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		A_ID, A_TYPE, A_SUM, A_WAYS, A_CARD_ID, A_IMG, A_DATE
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from amount
+		where A_ID = #{aId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from amount
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from amount
+		where A_ID =
+		#{aId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.Amount">
+		insert into amount
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="aId != null">
+				A_ID,
+			</if>
+			<if test="aType != null">
+				A_TYPE,
+			</if>
+			<if test="aSum != null">
+				A_SUM,
+			</if>
+			<if test="aWays != null">
+				A_WAYS,
+			</if>
+			<if test="aCardId != null">
+				A_CARD_ID,
+			</if>
+			<if test="aImg != null">
+				A_IMG,
+			</if>
+			<if test="aDate != null">
+				A_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="aId != null">
+				#{aId,jdbcType=INTEGER},
+			</if>
+			<if test="aType != null">
+				#{aType,jdbcType=CHAR},
+			</if>
+			<if test="aSum != null">
+				#{aSum,jdbcType=DECIMAL},
+			</if>
+			<if test="aWays != null">
+				#{aWays,jdbcType=CHAR},
+			</if>
+			<if test="aCardId != null">
+				#{aCardId,jdbcType=INTEGER},
+			</if>
+			<if test="aImg != null">
+				#{aImg,jdbcType=INTEGER},
+			</if>
+			<if test="aDate != null">
+				#{aDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.Amount">
+		update amount
+		<set>
+			<if test="aType != null">
+				A_TYPE = #{aType,jdbcType=CHAR},
+			</if>
+			<if test="aSum != null">
+				A_SUM = #{aSum,jdbcType=DECIMAL},
+			</if>
+			<if test="aWays != null">
+				A_WAYS = #{aWays,jdbcType=CHAR},
+			</if>
+			<if test="aCardId != null">
+				A_CARD_ID = #{aCardId,jdbcType=INTEGER},
+			</if>
+			<if test="aImg != null">
+				A_IMG = #{aImg,jdbcType=INTEGER},
+			</if>
+			<if test="aDate != null">
+				A_DATE = #{aDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where A_ID = #{aId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

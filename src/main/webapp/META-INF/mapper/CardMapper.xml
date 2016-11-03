@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.CardMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.Card">
+		<id column="C_ID" property="cId" jdbcType="INTEGER" />
+		<result column="C_TYPE" property="cType" jdbcType="CHAR" />
+		<result column="C_NO" property="cNo" jdbcType="VARCHAR" />
+		<result column="C_BANK_ID" property="cBankId" jdbcType="INTEGER" />
+		<result column="C_DATE" property="cDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		C_ID, C_TYPE, C_NO, C_BANK_ID, C_DATE
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from card
+		where C_ID = #{cId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from card
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from card
+		where C_ID =
+		#{cId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.Card">
+		insert into card
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cId != null">
+				C_ID,
+			</if>
+			<if test="cType != null">
+				C_TYPE,
+			</if>
+			<if test="cNo != null">
+				C_NO,
+			</if>
+			<if test="cBankId != null">
+				C_BANK_ID,
+			</if>
+			<if test="cDate != null">
+				C_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cId != null">
+				#{cId,jdbcType=INTEGER},
+			</if>
+			<if test="cType != null">
+				#{cType,jdbcType=CHAR},
+			</if>
+			<if test="cNo != null">
+				#{cNo,jdbcType=VARCHAR},
+			</if>
+			<if test="cBankId != null">
+				#{cBankId,jdbcType=INTEGER},
+			</if>
+			<if test="cDate != null">
+				#{cDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.Card">
+		update card
+		<set>
+			<if test="cType != null">
+				C_TYPE = #{cType,jdbcType=CHAR},
+			</if>
+			<if test="cNo != null">
+				C_NO = #{cNo,jdbcType=VARCHAR},
+			</if>
+			<if test="cBankId != null">
+				C_BANK_ID = #{cBankId,jdbcType=INTEGER},
+			</if>
+			<if test="cDate != null">
+				C_DATE = #{cDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where C_ID = #{cId,jdbcType=INTEGER}
+	</update>
+
+</mapper>
