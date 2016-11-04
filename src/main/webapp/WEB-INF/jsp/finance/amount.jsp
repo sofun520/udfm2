@@ -21,7 +21,7 @@
 	<div style="margin-bottom: 10px;">
 		<button data-toggle="modal" data-target="#myModal"
 			data-keyboard="false" data-backdrop="false"
-			class="sui-btn btn-primary btn-lg">添加角色</button>
+			class="sui-btn btn-primary btn-lg">新增消费</button>
 	</div>
 	<div class="sui-msg msg-block msg-default msg-tips">
 		<div class="msg-con">系统角色列表</div>
@@ -32,9 +32,9 @@
 			<tr>
 				<th>＃</th>
 				<th>类型</th>
-				<th>总计</th>
+				<th>总计(&yen;)</th>
 				<th>支付方式</th>
-				<th>卡id</th>
+				<th>卡号</th>
 				<th>添加时间</th>
 				<th>操作</th>
 			</tr>
@@ -49,14 +49,19 @@
 				<c:forEach var="r" items="${list}" varStatus="x">
 					<tr>
 						<td><c:out value="${x.count}"></c:out></td>
-						<td><c:out value="${r.aType}"></c:out></td>
-						<td><c:out value="${r.aSum}"></c:out></td>
-						<td><c:out value="${r.aWays}"></c:out></td>
-						<td><c:out value="${r.aCardId}"></c:out></td>
+						<td><c:if test="${r.aType==1}">收入</c:if> <c:if
+								test="${r.aType==2}">支出</c:if></td>
+						<td><div align="right">
+								<c:out value="${r.aSum}"></c:out>
+							</div></td>
+						<td><c:if test="${r.aWays==1}">现金</c:if> <c:if
+								test="${r.aWays==2}">银行卡</c:if> <c:if test="${r.aWays==3}">信用卡</c:if>
+						</td>
+						<td><c:out value="${r.cNo}"></c:out></td>
 						<td><fmt:formatDate value="${r.aDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="apiDel.do?id=<c:out value="${r.aId}"></c:out>">删除</a>
-						</td>
+						<td><a
+							href="amountDel.do?id=<c:out value="${r.aId}"></c:out>">删除</a></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -114,20 +119,57 @@
 					</div>
 
 					<form class="sui-form form-horizontal sui-validate"
-						action="../../api/attach/upload.do" method="post"
-						enctype="multipart/form-data">
+						action="amountInsert.do" method="post">
 						<div class="control-group">
-							<label for="inputEmail" class="control-label">11角色名称：</label>
+							<label for="inputEmail" class="control-label">支付类型：</label>
 							<div class="controls">
-								<input type="file" name="file" class="form-control input-sm"
-									id="inputEmail3" check-type="required"> <input
-									type="hidden" name="url" value="../../mvc/test1/query1.do">
+								<select name="aType" style="width: 156px;">
+									<c:forEach var="p" items="${enumList }">
+										<option value="<c:out value="${p.eKey}"></c:out>"><c:out
+												value="${p.eValue}"></c:out></option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="inputEmail" class="control-label">总计：</label>
+							<div class="controls">
+								<input type="text" id="eCode" name="aSum" placeholder=""
+									data-rules="required">
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="inputEmail" class="control-label">支付方式：</label>
+							<div class="controls">
+								<select id="aWays" name="aWays" style="width: 156px;"
+									onchange="gradeChange()">
+									<c:forEach var="p" items="${enumList2 }">
+										<option value="<c:out value="${p.eKey}"></c:out>"><c:out
+												value="${p.eValue}"></c:out></option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+						<div class="control-group" id="cardShow">
+							<label for="inputEmail" class="control-label">卡号：</label>
+							<div class="controls">
+								<select name="aCardId" style="width: 156px;" id="aCardId">
+
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="inputEmail" class="control-label">票据：</label>
+							<div class="controls">
+								<input type="text" id="eCode" name="aImg" placeholder=""
+									data-rules="required">
 							</div>
 						</div>
 						<div style="text-align: center;">
-							<button type="submit" class="sui-btn btn-primary btn-large">提交</button>
+							<button type="submit" class="sui-btn btn-primary">提交</button>
+							<button type="reset" class="sui-btn">重置</button>
 							<button type="button" data-dismiss="modal"
-								class="sui-btn btn-default btn-large">取消</button>
+								class="sui-btn btn-default">取消</button>
 						</div>
 					</form>
 
@@ -138,6 +180,38 @@
 		</div>
 	</div>
 
+	<script type="text/javascript">
+		$(function() {
+			$("#cardShow").hide();
+		});
 
+		function gradeChange() {
+			var id = $("#aWays").val();
+			if (id == 1) {
+				$("#aCardId").html('');
+				$("#cardShow").hide();
+			} else if (id == 2) {
+				$.get('../../api/finance/query.do?cType=1', function(data) {
+					var html = '';
+					$.each(data.data, function(i, m) {
+						html += '<option value="'+m.cId+'">' + m.cNo
+								+ '</option>';
+					});
+					$("#aCardId").html(html);
+				});
+				$("#cardShow").show();
+			} else if (id == 3) {
+				$.get('../../api/finance/query.do?cType=2', function(data) {
+					var html = '';
+					$.each(data.data, function(i, m) {
+						html += '<option value="'+m.cId+'">' + m.cNo
+								+ '</option>';
+					});
+					$("#aCardId").html(html);
+				});
+				$("#cardShow").show();
+			}
+		}
+	</script>
 </body>
 </html>

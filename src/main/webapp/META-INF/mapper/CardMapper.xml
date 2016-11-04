@@ -8,6 +8,15 @@
 		<result column="C_BANK_ID" property="cBankId" jdbcType="INTEGER" />
 		<result column="C_DATE" property="cDate" jdbcType="TIMESTAMP" />
 	</resultMap>
+	
+	<resultMap id="BaseResultMap2" type="cn.springmvc.model.Card">
+		<id column="C_ID" property="cId" jdbcType="INTEGER" />
+		<result column="C_TYPE" property="cType" jdbcType="CHAR" />
+		<result column="C_NO" property="cNo" jdbcType="VARCHAR" />
+		<result column="C_BANK_ID" property="cBankId" jdbcType="INTEGER" />
+		<result column="C_DATE" property="cDate" jdbcType="TIMESTAMP" />
+		<result column="E_VALUE" property="eValue" jdbcType="VARCHAR" />
+	</resultMap>
 
 	<sql id="Base_Column_List">
 		C_ID, C_TYPE, C_NO, C_BANK_ID, C_DATE
@@ -20,10 +29,30 @@
 		where C_ID = #{cId,jdbcType=INTEGER}
 	</select>
 
-	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+	<select id="query" resultMap="BaseResultMap2" parameterType="java.util.Map">
+		SELECT
+			c.*, te.E_VALUE
+		FROM
+			`card` c,
+			t_enum te
+		WHERE
+			c.C_BANK_ID = te.E_KEY
+		AND E_CODE = 'BANK'
+		<if test="cType != null and cType != ''">
+			and C_TYPE = #{cType}
+		</if>
+		ORDER BY
+			C_ID
+	</select>
+	
+	<select id="query1" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select
 		<include refid="Base_Column_List" />
 		from card
+		where 1=1
+		<if test="cType != null and cType != ''">
+			and C_TYPE = #{cType}
+		</if>
 	</select>
 
 	<delete id="delete" parameterType="java.lang.Integer">

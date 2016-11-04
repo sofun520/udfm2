@@ -2,7 +2,8 @@ package cn.springmvc.model;
 
 import java.util.Date;
 
-public class Card {
+public class Card
+{
     private Integer cId;
 
     private String cType;
@@ -13,43 +14,65 @@ public class Card {
 
     private Date cDate;
 
-    public Integer getcId() {
+    private String eValue;
+
+    public String geteValue()
+    {
+        return eValue;
+    }
+
+    public void seteValue(String eValue)
+    {
+        this.eValue = eValue;
+    }
+
+    public Integer getcId()
+    {
         return cId;
     }
 
-    public void setcId(Integer cId) {
+    public void setcId(Integer cId)
+    {
         this.cId = cId;
     }
 
-    public String getcType() {
+    public String getcType()
+    {
         return cType;
     }
 
-    public void setcType(String cType) {
+    public void setcType(String cType)
+    {
         this.cType = cType == null ? null : cType.trim();
     }
 
-    public String getcNo() {
+    public String getcNo()
+    {
         return cNo;
     }
 
-    public void setcNo(String cNo) {
+    public void setcNo(String cNo)
+    {
         this.cNo = cNo == null ? null : cNo.trim();
     }
 
-    public Integer getcBankId() {
+    public Integer getcBankId()
+    {
         return cBankId;
     }
 
-    public void setcBankId(Integer cBankId) {
+    public void setcBankId(Integer cBankId)
+    {
         this.cBankId = cBankId;
     }
 
-    public Date getcDate() {
+    public Date getcDate()
+    {
         return cDate;
     }
 
-    public void setcDate(Date cDate) {
+    public void setcDate(Date cDate)
+    {
         this.cDate = cDate;
     }
 }

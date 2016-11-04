@@ -3,7 +3,8 @@ package cn.springmvc.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Amount {
+public class Amount
+{
     private Integer aId;
 
     private String aType;
@@ -18,59 +19,85 @@ public class Amount {
 
     private Date aDate;
 
-    public Integer getaId() {
+    private String cNo;
+
+    public String getcNo()
+    {
+        return cNo;
+    }
+
+    public void setcNo(String cNo)
+    {
+        this.cNo = cNo;
+    }
+
+    public Integer getaId()
+    {
         return aId;
     }
 
-    public void setaId(Integer aId) {
+    public void setaId(Integer aId)
+    {
         this.aId = aId;
     }
 
-    public String getaType() {
+    public String getaType()
+    {
         return aType;
     }
 
-    public void setaType(String aType) {
+    public void setaType(String aType)
+    {
         this.aType = aType == null ? null : aType.trim();
     }
 
-    public BigDecimal getaSum() {
+    public BigDecimal getaSum()
+    {
         return aSum;
     }
 
-    public void setaSum(BigDecimal aSum) {
+    public void setaSum(BigDecimal aSum)
+    {
         this.aSum = aSum;
     }
 
-    public String getaWays() {
+    public String getaWays()
+    {
         return aWays;
     }
 
-    public void setaWays(String aWays) {
+    public void setaWays(String aWays)
+    {
         this.aWays = aWays == null ? null : aWays.trim();
     }
 
-    public Integer getaCardId() {
+    public Integer getaCardId()
+    {
         return aCardId;
     }
 
-    public void setaCardId(Integer aCardId) {
+    public void setaCardId(Integer aCardId)
+    {
         this.aCardId = aCardId;
     }
 
-    public Integer getaImg() {
+    public Integer getaImg()
+    {
         return aImg;
     }
 
-    public void setaImg(Integer aImg) {
+    public void setaImg(Integer aImg)
+    {
         this.aImg = aImg;
     }
 
-    public Date getaDate() {
+    public Date getaDate()
+    {
         return aDate;
     }
 
-    public void setaDate(Date aDate) {
+    public void setaDate(Date aDate)
+    {
         this.aDate = aDate;
     }
 }

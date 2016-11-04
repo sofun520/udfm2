@@ -10,6 +10,17 @@
 		<result column="A_IMG" property="aImg" jdbcType="INTEGER" />
 		<result column="A_DATE" property="aDate" jdbcType="TIMESTAMP" />
 	</resultMap>
+	
+	<resultMap id="BaseResultMap2" type="cn.springmvc.model.Amount">
+		<id column="A_ID" property="aId" jdbcType="INTEGER" />
+		<result column="A_TYPE" property="aType" jdbcType="CHAR" />
+		<result column="A_SUM" property="aSum" jdbcType="DECIMAL" />
+		<result column="A_WAYS" property="aWays" jdbcType="CHAR" />
+		<result column="A_CARD_ID" property="aCardId" jdbcType="INTEGER" />
+		<result column="A_IMG" property="aImg" jdbcType="INTEGER" />
+		<result column="A_DATE" property="aDate" jdbcType="TIMESTAMP" />
+		<result column="C_NO" property="cNo" jdbcType="VARCHAR" />
+	</resultMap>
 
 	<sql id="Base_Column_List">
 		A_ID, A_TYPE, A_SUM, A_WAYS, A_CARD_ID, A_IMG, A_DATE
@@ -22,7 +33,16 @@
 		where A_ID = #{aId,jdbcType=INTEGER}
 	</select>
 
-	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+	<select id="query" resultMap="BaseResultMap2" parameterType="java.util.Map">
+		SELECT
+			a.*, c.C_NO
+		FROM
+			`amount` a
+		LEFT JOIN card c ON a.A_CARD_ID = c.C_ID
+		
+	</select>
+	
+	<select id="query1" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select
 		<include refid="Base_Column_List" />
 		from amount

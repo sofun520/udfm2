@@ -83,6 +83,10 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.json</url-pattern>
+	</servlet-mapping>
 	<!-- <servlet-mapping> <servlet-name>spring</servlet-name> <url-pattern>*.pdf</url-pattern> 
 		</servlet-mapping> -->
 

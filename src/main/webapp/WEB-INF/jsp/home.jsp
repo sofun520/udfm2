@@ -14,8 +14,7 @@
 <script type="text/javascript"
 	src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script>
 <style type="text/css">
-
-body{
+body {
 	background-color: #f5f5f5;
 }
 
@@ -209,30 +208,54 @@ i {
 		function getSubMenu(id) {
 			$
 					.get(
-							"../api/roleMenu/query.do?roleId=${authUser.roleId}&mType=2&mParent=" + id,
+							"../api/roleMenu/query.do?roleId=${authUser.roleId}&mType=2&mParent="
+									+ id,
 							function(data) {
 								var ht = '';
 								var murl = '';
+								var index;
+								var len;
 								$
 										.each(
 												data.data,
 												function(i, value) {
 													if (i == 0) {
 														murl = value.mUrl;
+														index = i;
+														len = data.data.length;
 													}
-													ht += '<li><a href="javascript:void(0)" onclick="loadFrame(\''
+													/* ht += '<li id="li'+i+'"><a href="javascript:void(0)" onclick="loadFrame(\''
 															+ value.mUrl
 															+ '\')"><i class="sui-icon icon-tb-cascades"></i>'
 															+ value.mName
-															+ '</a></li>';
+															+ '</a></li>'; */
+													ht += '<li id="li'+i+'"><a href="javascript:void(0)" onclick="loadFrame(\''
+													+ value.mUrl
+													+ '\',\''
+													+ i
+													+ '\',\''
+													+ data.data.length
+													+ '\')"><i class="sui-icon icon-tb-cascades"></i><span>'
+													+ value.mName
+													+ '</span></a></li>';
 												});
 								$("#subMenu").html(ht);
-								loadFrame(murl);
+								loadFrame(murl, index, len);
 							});
 		}
 
-		function loadFrame(url) {
+		function loadFrame(url, i, len) {
+			cancleLiActive(len);
+			var obj = document.getElementById("li" + i);
+			obj.setAttribute("class", "active");
 			$("#subFrame").attr('src', url);
+		}
+		
+		function cancleLiActive(len) {
+			for (var i = 0; i < len; i++) {
+				var obj = document.getElementById("li" + i);
+				obj.removeAttribute("class");
+			}
 		}
 	</script>
 </body>

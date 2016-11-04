@@ -21,7 +21,7 @@
 	<div style="margin-bottom: 10px;">
 		<button data-toggle="modal" data-target="#myModal"
 			data-keyboard="false" data-backdrop="false"
-			class="sui-btn btn-primary btn-lg">添加角色</button>
+			class="sui-btn btn-primary btn-lg">添加卡信息</button>
 	</div>
 	<div class="sui-msg msg-block msg-default msg-tips">
 		<div class="msg-con">系统角色列表</div>
@@ -48,12 +48,13 @@
 				<c:forEach var="r" items="${list}" varStatus="x">
 					<tr>
 						<td><c:out value="${x.count}"></c:out></td>
-						<td><c:out value="${r.cType}"></c:out></td>
+						<td><c:if test="${r.cType==1}">银行卡</c:if> <c:if
+								test="${r.cType==2}">信用卡</c:if></td>
 						<td><c:out value="${r.cNo}"></c:out></td>
-						<td><c:out value="${r.cBankId}"></c:out></td>
+						<td><c:out value="${r.eValue}"></c:out></td>
 						<td><fmt:formatDate value="${r.cDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td><a href="apiDel.do?id=<c:out value="${r.cId}"></c:out>">删除</a>
+						<td><a href="cardDel.do?id=<c:out value="${r.cId}"></c:out>">删除</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -143,15 +144,13 @@
 							</div>
 						</div>
 						<div style="text-align: center;">
-							<button type="submit" class="sui-btn btn-primary btn-large">提交</button>
+							<button type="submit" class="sui-btn btn-primary">提交</button>
+							<button type="reset" class="sui-btn">重置</button>
 							<button type="button" data-dismiss="modal"
-								class="sui-btn btn-default btn-large">取消</button>
+								class="sui-btn btn-default">取消</button>
 						</div>
 					</form>
-
 				</div>
-				<!-- <div class="modal-footer">
-				</div> -->
 			</div>
 		</div>
 	</div>
