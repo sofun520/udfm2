@@ -191,7 +191,7 @@
 				$("#aCardId").html('');
 				$("#cardShow").hide();
 			} else if (id == 2) {
-				$.get('../../api/finance/query.do?cType=1', function(data) {
+				$.get('../../api/card/query.do?cType=1', function(data) {
 					var html = '';
 					$.each(data.data, function(i, m) {
 						html += '<option value="'+m.cId+'">' + m.cNo
@@ -201,7 +201,7 @@
 				});
 				$("#cardShow").show();
 			} else if (id == 3) {
-				$.get('../../api/finance/query.do?cType=2', function(data) {
+				$.get('../../api/card/query.do?cType=2', function(data) {
 					var html = '';
 					$.each(data.data, function(i, m) {
 						html += '<option value="'+m.cId+'">' + m.cNo

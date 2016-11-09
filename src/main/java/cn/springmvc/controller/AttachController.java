@@ -1,11 +1,14 @@
 package cn.springmvc.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +16,21 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.springmvc.model.TAttach;
 import cn.springmvc.model.TEnum;
+import cn.springmvc.response.ResponseData;
 import cn.springmvc.service.MaxCodeService;
 import cn.springmvc.service.TAttachService;
 import cn.springmvc.service.TEnumService;
+import cn.springmvc.util.Const;
 import cn.springmvc.util.DateUtils;
 import cn.springmvc.util.SysConfig;
 
@@ -117,6 +125,78 @@ public class AttachController implements ApplicationContextAware
             e.printStackTrace();
         }
         return new ModelAndView("redirect:" + url);
+    }
+
+    @RequestMapping(value = "/api/attach/upload2")
+    @ResponseBody
+    public ResponseData upload2(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+    {
+        ResponseData rd = new ResponseData();
+
+        SysConfig sysconfig = getConfig();
+        String url = request.getParameter("url");
+        String nowDate = DateUtils.getNowDate();
+
+        // upload/20161101/IMG201611010001.jpg
+        String path1 = System.getProperty("user.dir") + File.separator + sysconfig.getAttachDir() + File.separator
+                + nowDate;
+        File uploadFileDir = new File(path1);
+        if (!uploadFileDir.exists())
+        {
+            uploadFileDir.mkdirs();
+        }
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("eCode", "attachHost");
+        TEnum tenum = enumService.query(map).get(0);
+        String viewUrlHost = tenum.geteValue() + nowDate + "/";
+
+        JSONObject re = new JSONObject();
+        MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;// request强制转换注意
+        List<MultipartFile> list = mRequest.getFiles("ficon");
+        if (list.size() > 0)
+        {
+            for (MultipartFile file : list)
+            {
+                if (!file.isEmpty())
+                {
+                    try
+                    {
+                        String fName = file.getOriginalFilename();
+                        String suffix = fName.substring(fName.lastIndexOf("."));
+                        String code = codeService.getCode("IM");
+                        TAttach tattach = new TAttach();
+                        tattach.settPath(nowDate);
+                        tattach.settName(code + suffix);
+                        service.insert(tattach);
+
+                        File targetFile = new File(uploadFileDir, code + suffix);
+                        if (!targetFile.exists())
+                        {
+                            targetFile.mkdirs();
+                        }
+                        else
+                        {
+                            targetFile.delete();
+                        }
+                        // 保存
+                        file.transferTo(targetFile);
+
+                        rd.setSuccess(Const.SUCCESS);
+                        re.put("url", viewUrlHost + code + suffix);
+                        rd.setData(re);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        rd.setErrCode(Const.INNER_ERROR);
+                        rd.setMessage(Const.getErrDes(Const.INNER_ERROR));
+                        rd.setSuccess(Const.FAILED);
+                    }
+                }
+            }
+        }
+        return rd;
     }
 
     public SysConfig getConfig()

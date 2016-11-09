@@ -76,7 +76,7 @@ public class CardController
         return new ModelAndView("redirect:card.do");
     }
 
-    @RequestMapping("/api/finance/query")
+    @RequestMapping("/api/card/query")
     @ResponseBody
     public ResponseData apiQuery(HttpServletRequest request)
     {

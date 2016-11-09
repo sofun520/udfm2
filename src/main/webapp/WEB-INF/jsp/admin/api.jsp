@@ -35,9 +35,9 @@
 				<th>接口url</th>
 				<th>请求类型</th>
 				<th>请求参数</th>
-				<th>请求计数</th>
+				<th>计数</th>
 				<th>接口描述</th>
-				<th>添加时间</th>
+				<!-- <th>添加时间</th> -->
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -57,9 +57,10 @@
 						<td><c:out value="${a.aParam}"></c:out></td>
 						<td><c:out value="${a.aCount}"></c:out></td>
 						<td><c:out value="${a.aDescription}"></c:out></td>
-						<td><fmt:formatDate value="${a.aDate}" type="date"
-								pattern="yyyy-MM-dd" /></td>
+						<%-- <td><fmt:formatDate value="${a.aDate}" type="date"
+								pattern="yyyy-MM-dd" /></td> --%>
 						<td><a href="apiDel.do?id=<c:out value="${a.aId}"></c:out>">删除</a>
+						<a href="#">修改</a>
 						</td>
 					</tr>
 				</c:forEach>

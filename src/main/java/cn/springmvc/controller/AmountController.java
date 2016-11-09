@@ -88,7 +88,7 @@ public class AmountController
     }
 
     // ==================api=========
-    @RequestMapping("/api/finance/update")
+    @RequestMapping("/api/amount/update")
     @ResponseBody
     public ResponseData apiInsert(Amount amount)
     {
@@ -119,7 +119,7 @@ public class AmountController
         return re;
     }
 
-    @RequestMapping("/api/finance/query")
+    @RequestMapping("/api/amount/query")
     @ResponseBody
     public ResponseData apiQuery()
     {

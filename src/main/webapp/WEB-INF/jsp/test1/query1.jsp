@@ -15,6 +15,7 @@
 	src="http://g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript"
 	src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script>
+<script type="text/javascript" src="../../sui/js/jquery.form.js"></script>
 
 </head>
 <body>
@@ -106,6 +107,9 @@
 						<div class="msg-con">填写系统角色属性</div>
 						<s class="msg-icon"></s>
 					</div>
+					
+					<img id="viewImg" alt="" src="">
+					
 
 					<form class="sui-form form-horizontal sui-validate"
 						action="../../api/attach/upload.do" method="post"
@@ -125,13 +129,43 @@
 						</div>
 					</form>
 
+
+
+					<form id="formToUpdate" method="post" action="#"
+						enctype="multipart/form-data">
+						<input type="text" name="t1"><br /> <input type="file"
+							name="ficon"><br /> <input id="ajaxSubmit" type="button"
+							value="异步提交">
+					</form>
+					
 				</div>
-				<!-- <div class="modal-footer">
-				</div> -->
 			</div>
 		</div>
-	</div>
-
-
+		
+		<script type="text/javascript" language="javascript">
+        $(function(){
+            //异步提交表单
+            $("#ajaxSubmit").on("click",function(){
+                console.log($(this));
+                $("#formToUpdate").ajaxSubmit({
+                    type:'post',
+                    url:'../../api/attach/upload2.do',
+                    success:function(data){
+                        console.log(data);
+                        if(data.success==0){
+	                        alert(data.data.url);
+                        	$("#viewImg").attr("src",data.data.url);
+                        	alert('上传成功');
+                        }
+                    },
+                    error:function(XmlHttpRequest,textStatus,errorThrown){
+                        console.log(XmlHttpRequest);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
