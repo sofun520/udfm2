@@ -107,65 +107,57 @@
 						<div class="msg-con">填写系统角色属性</div>
 						<s class="msg-icon"></s>
 					</div>
-					
-					<img id="viewImg" alt="" src="">
-					
 
-					<form class="sui-form form-horizontal sui-validate"
-						action="../../api/attach/upload.do" method="post"
-						enctype="multipart/form-data">
+					<img id="viewImg" alt="" src="">
+
+					<form id="formToUpdate" method="post" action="#"
+						enctype="multipart/form-data"
+						class="sui-form form-horizontal sui-validate">
+
 						<div class="control-group">
-							<label for="inputEmail" class="control-label">11角色名称：</label>
+							<label for="inputEmail" class="control-label">上传图片：</label>
 							<div class="controls">
-								<input type="file" name="file" class="form-control input-sm"
-									id="inputEmail3" check-type="required"> <input
-									type="hidden" name="url" value="../../mvc/test1/query1.do">
+								<input type="file" name="ficon" class="sui-btn btn-default" data-rules="required">
 							</div>
 						</div>
 						<div style="text-align: center;">
-							<button type="submit" class="sui-btn btn-primary btn-large">提交</button>
-							<button type="button" data-dismiss="modal"
-								class="sui-btn btn-default btn-large">取消</button>
+							<button id="ajaxSubmit" type="button" class="sui-btn btn-default">上传</button>
 						</div>
 					</form>
 
-
-
-					<form id="formToUpdate" method="post" action="#"
-						enctype="multipart/form-data">
-						<input type="text" name="t1"><br /> <input type="file"
-							name="ficon"><br /> <input id="ajaxSubmit" type="button"
-							value="异步提交">
-					</form>
-					
 				</div>
 			</div>
 		</div>
-		
+
 		<script type="text/javascript" language="javascript">
-        $(function(){
-            //异步提交表单
-            $("#ajaxSubmit").on("click",function(){
-                console.log($(this));
-                $("#formToUpdate").ajaxSubmit({
-                    type:'post',
-                    url:'../../api/attach/upload2.do',
-                    success:function(data){
-                        console.log(data);
-                        if(data.success==0){
-	                        //alert(data.data.url);
-                        	$("#viewImg").attr("src",data.data.url);
-                        	alert('上传成功');
-                        }
-                    },
-                    error:function(XmlHttpRequest,textStatus,errorThrown){
-                        console.log(XmlHttpRequest);
-                        console.log(textStatus);
-                        console.log(errorThrown);
-                    }
-                });
-            });
-        });
-    </script>
+			$(function() {
+				//异步提交表单
+				$("#ajaxSubmit").on(
+						"click",
+						function() {
+							console.log($(this));
+							$("#formToUpdate").ajaxSubmit(
+									{
+										type : 'post',
+										url : '../../api/attach/upload2.do',
+										success : function(data) {
+											console.log(data);
+											if (data.success == 0) {
+												//alert(data.data.url);
+												$("#viewImg").attr("src",
+														data.data.url);
+												alert('上传成功');
+											}
+										},
+										error : function(XmlHttpRequest,
+												textStatus, errorThrown) {
+											console.log(XmlHttpRequest);
+											console.log(textStatus);
+											console.log(errorThrown);
+										}
+									});
+						});
+			});
+		</script>
 </body>
 </html>
