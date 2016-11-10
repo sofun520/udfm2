@@ -153,7 +153,7 @@
                     success:function(data){
                         console.log(data);
                         if(data.success==0){
-	                        alert(data.data.url);
+	                        //alert(data.data.url);
                         	$("#viewImg").attr("src",data.data.url);
                         	alert('上传成功');
                         }
