@@ -51,16 +51,33 @@
 						<td><c:out value="${m.mType}"></c:out></td>
 						<td><fmt:formatDate value="${m.mDate}" type="date"
 								pattern="yyyy-MM-dd" /></td>
-						<td>
-						<c:if test="${m.mType != 1}">
-						<a class="sui-btn btn-small" href="menuDel.do?id=<c:out value="${m.mId}"></c:out>">删除</a>
-						</c:if>
-						</td>
+						<td><c:if test="${m.mType != 1}">
+								<a class="sui-btn btn-small"
+									href="menuDel.do?id=<c:out value="${m.mId}"></c:out>">删除</a>
+							</c:if></td>
 					</tr>
 				</c:forEach>
 			</c:if>
 		</tbody>
 	</table>
+
+
+	<div class="sui-pagination">
+		<ul>
+			<li class="prev <c:if test="${page==1}">disabled</c:if>"><a
+				<c:if test="${page>1}">href="menu.do?page=${page-1}"</c:if>>«上一页</a></li>
+			<c:forEach var="in" begin="1" end="${pageCount}" varStatus="xh">
+				<li <c:if test="${xh.count==page}">class="active"</c:if>><a
+					href="menu.do?page=${xh.count}">${xh.count}</a></li>
+			</c:forEach>
+			<li class="next <c:if test="${page==pageCount}">disabled</c:if>"><a
+				<c:if test="${page<pageCount}">href="menu.do?page=${page+1}"</c:if>>下一页»</a></li>
+		</ul>
+		<div>
+			<span>共<c:out value="${pageCount}"></c:out>页
+			</span>
+		</div>
+	</div>
 
 	<div class="sui-msg msg-block msg-default msg-tips">
 		<div class="msg-con">以下为供销平台上已经获得小二授权经营您的品牌但还未被您进行收编的供应商</div>
@@ -107,8 +124,8 @@
 					<h4 id="myModalLabel" class="modal-title">添加新菜单</h4>
 				</div>
 				<div class="modal-body">
-					<form class="sui-form form-horizontal sui-validate" action="menuAdd.do"
-						method="post">
+					<form class="sui-form form-horizontal sui-validate"
+						action="menuAdd.do" method="post">
 						<div class="control-group">
 							<label for="inputEmail" class="control-label">菜单名称：</label>
 							<div class="controls">
@@ -119,15 +136,13 @@
 						<div class="control-group">
 							<label for="inputEmail" class="control-label">菜单url：</label>
 							<div class="controls">
-								<input type="text" id="inputEmail" name="mUrl" placeholder=""
-									>
+								<input type="text" id="inputEmail" name="mUrl" placeholder="">
 							</div>
 						</div>
 						<div class="control-group">
 							<label for="inputEmail" class="control-label">父菜单：</label>
 							<div class="controls">
-								<select name="mParent" 
-									style="width: 155px;">
+								<select name="mParent" style="width: 155px;">
 									<option value="">一级菜单</option>
 									<c:forEach var="p" items="${plist }">
 										<option value="<c:out value="${p.mId}"></c:out>"><c:out
@@ -159,7 +174,9 @@
 			</div>
 		</div>
 	</div>
-
+	<script type="text/javascript">
+		
+	</script>
 
 </body>
 </html>

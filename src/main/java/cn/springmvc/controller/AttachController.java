@@ -32,6 +32,7 @@ import cn.springmvc.service.TAttachService;
 import cn.springmvc.service.TEnumService;
 import cn.springmvc.util.Const;
 import cn.springmvc.util.DateUtils;
+import cn.springmvc.util.PageComponent;
 import cn.springmvc.util.SysConfig;
 
 import com.alibaba.fastjson.JSONObject;
@@ -67,13 +68,22 @@ public class AttachController implements ApplicationContextAware
     }
 
     @RequestMapping("/admin/attach")
-    public ModelAndView query()
+    public ModelAndView query(HttpServletRequest request)
     {
         Map<String, Object> context = new HashMap<String, Object>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("eCode", "attachHost");
         TEnum tenum = enumService.query(map).get(0);
+
+        int pageSize = 10;
+        int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        int total = service.count(map);
+        PageComponent pc = new PageComponent(page, total);
+        map.put("startIndex", (page - 1) * pageSize);
+        map.put("pageSize", pageSize);
+
         List<TAttach> list = service.query(map);
+        context = pc.getContext();
         context.put("list", list);
         context.put("tenum", tenum);
         return new ModelAndView("admin/attach", context);

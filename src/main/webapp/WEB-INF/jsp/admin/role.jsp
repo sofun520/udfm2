@@ -72,6 +72,23 @@
 			</c:if>
 		</tbody>
 	</table>
+	
+	<div class="sui-pagination">
+		<ul>
+			<li class="prev <c:if test="${page==1}">disabled</c:if>"><a
+				<c:if test="${page>1}">href="role.do?page=${page-1}"</c:if>>«上一页</a></li>
+			<c:forEach var="in" begin="1" end="${pageCount}" varStatus="xh">
+				<li <c:if test="${xh.count==page}">class="active"</c:if>><a
+					href="role.do?page=${xh.count}">${xh.count}</a></li>
+			</c:forEach>
+			<li class="next <c:if test="${page==pageCount}">disabled</c:if>"><a
+				<c:if test="${page<pageCount}">href="role.do?page=${page+1}"</c:if>>下一页»</a></li>
+		</ul>
+		<div>
+			<span>共<c:out value="${pageCount}"></c:out>页
+			</span>
+		</div>
+	</div>
 
 	<div class="sui-msg msg-block msg-default msg-tips">
 		<div class="msg-con">以下为供销平台上已经获得小二授权经营您的品牌但还未被您进行收编的供应商</div>

@@ -15,68 +15,96 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.springmvc.model.TEnum;
+import cn.springmvc.model.TMenu;
 import cn.springmvc.response.ResponseData;
 import cn.springmvc.service.TEnumService;
 import cn.springmvc.util.Const;
+import cn.springmvc.util.PageComponent;
 
 @Controller
-public class EnumController {
+public class EnumController
+{
 
-	@Autowired
-	private TEnumService service;
+    @Autowired
+    private TEnumService service;
 
-	@RequestMapping("/admin/enum")
-	public ModelAndView sms() {
-		Map<String, Object> context = new HashMap<String, Object>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		// map.put("eCode", "SMS");
-		List<TEnum> list = service.query(map);
-		context.put("list", list);
-		return new ModelAndView("admin/enum", context);
-	}
+    @RequestMapping("/admin/enum")
+    public ModelAndView sms(HttpServletRequest request)
+    {
+        Map<String, Object> context = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        // map.put("eCode", "SMS");
 
-	@RequestMapping("/admin/enumAdd")
-	public ModelAndView enumAdd(TEnum tenum) {
-		try {
-			if (!StringUtils.isEmpty(tenum.geteId())) {
-				service.update(tenum);
-			} else {
-				tenum.seteDate(new Date());
-				service.insert(tenum);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return new ModelAndView("redirect:/admin/enum.do");
-	}
+        int pageSize = 10;
+        int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        int total = service.count(map);
+        PageComponent pc = new PageComponent(page, total);
+        map.put("startIndex", (page - 1) * pageSize);
+        map.put("pageSize", pageSize);
 
-	@RequestMapping("/admin/enumDel")
-	public ModelAndView enumDel(HttpServletRequest request) {
-		try {
-			int id = Integer.parseInt(request.getParameter("id"));
-			service.delete(id);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return new ModelAndView("redirect:/admin/enum.do");
-	}
+        List<TEnum> list = service.query(map);
+        context = pc.getContext();
+        context.put("list", list);
 
-	@RequestMapping("/api/enum/find")
-	@ResponseBody
-	public ResponseData apifind(HttpServletRequest request) {
-		ResponseData rd = new ResponseData();
-		try {
-			TEnum tenum = service.find(Integer.parseInt(request
-					.getParameter("id")));
-			rd.setSuccess(0);
-			rd.setData(tenum);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			rd.setSuccess(1);
-			rd.setErrCode(Const.INNER_ERROR);
-			rd.setMessage(Const.getErrDes(Const.INNER_ERROR));
-		}
-		return rd;
-	}
+        return new ModelAndView("admin/enum", context);
+    }
+
+    @RequestMapping("/admin/enumAdd")
+    public ModelAndView enumAdd(TEnum tenum)
+    {
+        try
+        {
+            if (!StringUtils.isEmpty(tenum.geteId()))
+            {
+                service.update(tenum);
+            }
+            else
+            {
+                tenum.seteDate(new Date());
+                service.insert(tenum);
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return new ModelAndView("redirect:/admin/enum.do");
+    }
+
+    @RequestMapping("/admin/enumDel")
+    public ModelAndView enumDel(HttpServletRequest request)
+    {
+        try
+        {
+            int id = Integer.parseInt(request.getParameter("id"));
+            service.delete(id);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return new ModelAndView("redirect:/admin/enum.do");
+    }
+
+    @RequestMapping("/api/enum/find")
+    @ResponseBody
+    public ResponseData apifind(HttpServletRequest request)
+    {
+        ResponseData rd = new ResponseData();
+        try
+        {
+            TEnum tenum = service.find(Integer.parseInt(request.getParameter("id")));
+            rd.setSuccess(0);
+            rd.setData(tenum);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            rd.setSuccess(1);
+            rd.setErrCode(Const.INNER_ERROR);
+            rd.setMessage(Const.getErrDes(Const.INNER_ERROR));
+        }
+        return rd;
+    }
 
 }

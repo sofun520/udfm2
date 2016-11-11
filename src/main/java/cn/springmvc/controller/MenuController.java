@@ -17,65 +17,89 @@ import cn.springmvc.model.TMenu;
 import cn.springmvc.response.ResponseData;
 import cn.springmvc.service.TMenuService;
 import cn.springmvc.util.Const;
+import cn.springmvc.util.PageComponent;
 
 @Controller
-public class MenuController {
+public class MenuController
+{
 
-	@Autowired
-	private TMenuService service;
+    @Autowired
+    private TMenuService service;
 
-	@RequestMapping("/admin/menu")
-	public ModelAndView menu() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> context = new HashMap<String, Object>();
-		List<TMenu> list = service.queryAll(map);
-		List<TMenu> plist = service.query(map);
-		context.put("list", list);
-		context.put("plist", plist);
+    @RequestMapping("/admin/menu")
+    public ModelAndView menu(HttpServletRequest request)
+    {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> context = new HashMap<String, Object>();
 
-		return new ModelAndView("admin/menu", context);
-	}
+        int pageSize = 10;
+        List<TMenu> plist = service.query(map);
+        int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        int total = service.count(map);
+        PageComponent pc = new PageComponent(page, total);
+        map.put("startIndex", (page - 1) * pageSize);
+        map.put("pageSize", pageSize);
+        List<TMenu> list = service.queryAll(map);
 
-	@RequestMapping("/admin/menuAdd")
-	public ModelAndView add(TMenu menu) {
-		try {
-			menu.setmDate(new Date());
-			service.insert(menu);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return new ModelAndView("redirect:/admin/menu.do");
-	}
+        context = pc.getContext();
+        context.put("list", list);
+        context.put("plist", plist);
 
-	@RequestMapping("/admin/menuDel")
-	public ModelAndView delete(HttpServletRequest request) {
-		try {
-			int id = Integer.parseInt(request.getParameter("id"));
-			service.delete(id);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return new ModelAndView("redirect:/admin/menu.do");
-	}
+        return new ModelAndView("admin/menu", context);
+    }
 
-	@RequestMapping("/api/menu/query")
-	@ResponseBody
-	public ResponseData getRootMenu(HttpServletRequest request) {
-		ResponseData res = new ResponseData();
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mType", request.getParameter("mType"));
-			map.put("mParent", request.getParameter("mParent"));
-			List<TMenu> list = service.query(map);
-			res.setSuccess(Const.SUCCESS);
-			res.setData(list);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			res.setSuccess(Const.FAILED);
-			res.setErrCode(Const.INNER_ERROR);
-			res.setMessage(Const.getErrDes(Const.INNER_ERROR));
-		}
-		return res;
-	}
+    @RequestMapping("/admin/menuAdd")
+    public ModelAndView add(TMenu menu)
+    {
+        try
+        {
+            menu.setmDate(new Date());
+            service.insert(menu);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return new ModelAndView("redirect:/admin/menu.do");
+    }
+
+    @RequestMapping("/admin/menuDel")
+    public ModelAndView delete(HttpServletRequest request)
+    {
+        try
+        {
+            int id = Integer.parseInt(request.getParameter("id"));
+            service.delete(id);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return new ModelAndView("redirect:/admin/menu.do");
+    }
+
+    @RequestMapping("/api/menu/query")
+    @ResponseBody
+    public ResponseData getRootMenu(HttpServletRequest request)
+    {
+        ResponseData res = new ResponseData();
+        try
+        {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("mType", request.getParameter("mType"));
+            map.put("mParent", request.getParameter("mParent"));
+            List<TMenu> list = service.query(map);
+            res.setSuccess(Const.SUCCESS);
+            res.setData(list);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            res.setSuccess(Const.FAILED);
+            res.setErrCode(Const.INNER_ERROR);
+            res.setMessage(Const.getErrDes(Const.INNER_ERROR));
+        }
+        return res;
+    }
 
 }

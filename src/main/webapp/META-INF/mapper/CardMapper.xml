@@ -8,7 +8,7 @@
 		<result column="C_BANK_ID" property="cBankId" jdbcType="INTEGER" />
 		<result column="C_DATE" property="cDate" jdbcType="TIMESTAMP" />
 	</resultMap>
-	
+
 	<resultMap id="BaseResultMap2" type="cn.springmvc.model.Card">
 		<id column="C_ID" property="cId" jdbcType="INTEGER" />
 		<result column="C_TYPE" property="cType" jdbcType="CHAR" />
@@ -31,20 +31,37 @@
 
 	<select id="query" resultMap="BaseResultMap2" parameterType="java.util.Map">
 		SELECT
-			c.*, te.E_VALUE
+		c.*, te.E_VALUE
 		FROM
-			`card` c,
-			t_enum te
+		`card` c,
+		t_enum te
 		WHERE
-			c.C_BANK_ID = te.E_KEY
+		c.C_BANK_ID = te.E_KEY
 		AND E_CODE = 'BANK'
 		<if test="cType != null and cType != ''">
 			and C_TYPE = #{cType}
 		</if>
-		ORDER BY
-			C_ID
+		ORDER BY C_ID
+		<if test="pageSize!=null and pageSize!=0">
+			limit #{startIndex},#{pageSize}
+		</if>
 	</select>
-	
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT
+		count(*)
+		FROM
+		`card` c,
+		t_enum te
+		WHERE
+		c.C_BANK_ID = te.E_KEY
+		AND
+		E_CODE = 'BANK'
+		<if test="cType != null and cType != ''">
+			and C_TYPE = #{cType}
+		</if>
+	</select>
+
 	<select id="query1" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select
 		<include refid="Base_Column_List" />

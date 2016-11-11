@@ -68,6 +68,23 @@
 		</tbody>
 	</table>
 
+	<div class="sui-pagination">
+		<ul>
+			<li class="prev <c:if test="${page==1}">disabled</c:if>"><a
+				<c:if test="${page>1}">href="amount.do?page=${page-1}"</c:if>>«上一页</a></li>
+			<c:forEach var="in" begin="1" end="${pageCount}" varStatus="xh">
+				<li <c:if test="${xh.count==page}">class="active"</c:if>><a
+					href="amount.do?page=${xh.count}">${xh.count}</a></li>
+			</c:forEach>
+			<li class="next <c:if test="${page==pageCount}">disabled</c:if>"><a
+				<c:if test="${page<pageCount}">href="amount.do?page=${page+1}"</c:if>>下一页»</a></li>
+		</ul>
+		<div>
+			<span>共<c:out value="${pageCount}"></c:out>页
+			</span>
+		</div>
+	</div>
+
 	<div class="sui-msg msg-block msg-default msg-tips">
 		<div class="msg-con">以下为供销平台上已经获得小二授权经营您的品牌但还未被您进行收编的供应商</div>
 		<s class="msg-icon"></s>
@@ -162,7 +179,7 @@
 							<label for="inputEmail" class="control-label">票据：</label>
 							<div class="controls">
 								<input type="text" id="eCode" name="aImg" placeholder=""
-									data-rules="required">
+									data-rules="required" onclick="openDialog()">
 							</div>
 						</div>
 						<div style="text-align: center;">
@@ -180,38 +197,123 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
-		$(function() {
-			$("#cardShow").hide();
-		});
 
-		function gradeChange() {
-			var id = $("#aWays").val();
-			if (id == 1) {
-				$("#aCardId").html('');
+	<div id="uploadDialog" tabindex="-1" role="dialog" data-hasfoot="false"
+		class="sui-modal hide fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" data-dismiss="modal" aria-hidden="true"
+						class="sui-close">×</button>
+					<h4 id="myModalLabel" class="modal-title">添加角色</h4>
+				</div>
+				<div class="modal-body">
+					<div class="sui-msg msg-block msg-default msg-tips">
+						<div class="msg-con">填写系统角色属性</div>
+						<s class="msg-icon"></s>
+					</div>
+
+					<img id="viewImg" alt="" src="">
+
+					<form id="formToUpdate" method="post" action="#"
+						enctype="multipart/form-data"
+						class="sui-form form-horizontal sui-validate">
+
+						<div class="control-group">
+							<label for="inputEmail" class="control-label">上传图片：</label>
+							<div class="controls">
+								<input type="file" name="ficon" class="sui-btn btn-default"
+									data-rules="required">
+							</div>
+						</div>
+						<div style="text-align: center;">
+							<button id="ajaxSubmit" type="button" class="sui-btn btn-default">上传</button>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$(function() {
 				$("#cardShow").hide();
-			} else if (id == 2) {
-				$.get('../../api/card/query.do?cType=1', function(data) {
-					var html = '';
-					$.each(data.data, function(i, m) {
-						html += '<option value="'+m.cId+'">' + m.cNo
-								+ '</option>';
-					});
-					$("#aCardId").html(html);
+
+				$(function() {
+					//异步提交表单
+					$("#ajaxSubmit")
+							.on(
+									"click",
+									function() {
+										console.log($(this));
+										$("#formToUpdate")
+												.ajaxSubmit(
+														{
+															type : 'post',
+															url : '../../api/attach/upload2.do',
+															success : function(
+																	data) {
+																console
+																		.log(data);
+																if (data.success == 0) {
+																	//alert(data.data.url);
+																	$(
+																			"#viewImg")
+																			.attr(
+																					"src",
+																					data.data.url);
+																	alert('上传成功');
+																}
+															},
+															error : function(
+																	XmlHttpRequest,
+																	textStatus,
+																	errorThrown) {
+																console
+																		.log(XmlHttpRequest);
+																console
+																		.log(textStatus);
+																console
+																		.log(errorThrown);
+															}
+														});
+									});
 				});
-				$("#cardShow").show();
-			} else if (id == 3) {
-				$.get('../../api/card/query.do?cType=2', function(data) {
-					var html = '';
-					$.each(data.data, function(i, m) {
-						html += '<option value="'+m.cId+'">' + m.cNo
-								+ '</option>';
+
+			});
+
+			function gradeChange() {
+				var id = $("#aWays").val();
+				if (id == 1) {
+					$("#aCardId").html('');
+					$("#cardShow").hide();
+				} else if (id == 2) {
+					$.get('../../api/card/query.do?cType=1', function(data) {
+						var html = '';
+						$.each(data.data, function(i, m) {
+							html += '<option value="'+m.cId+'">' + m.cNo
+									+ '</option>';
+						});
+						$("#aCardId").html(html);
 					});
-					$("#aCardId").html(html);
-				});
-				$("#cardShow").show();
+					$("#cardShow").show();
+				} else if (id == 3) {
+					$.get('../../api/card/query.do?cType=2', function(data) {
+						var html = '';
+						$.each(data.data, function(i, m) {
+							html += '<option value="'+m.cId+'">' + m.cNo
+									+ '</option>';
+						});
+						$("#aCardId").html(html);
+					});
+					$("#cardShow").show();
+				}
 			}
-		}
-	</script>
+
+			function openDialog() {
+				alert('sd');
+				$("#uploadDialog").modal('show');
+			}
+		</script>
 </body>
 </html>

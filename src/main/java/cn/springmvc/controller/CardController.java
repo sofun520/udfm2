@@ -20,6 +20,7 @@ import cn.springmvc.response.ResponseData;
 import cn.springmvc.service.CardService;
 import cn.springmvc.service.TEnumService;
 import cn.springmvc.util.Const;
+import cn.springmvc.util.PageComponent;
 
 @Controller
 public class CardController
@@ -31,7 +32,7 @@ public class CardController
     private TEnumService enumService;
 
     @RequestMapping("/mvc/finance/card")
-    public ModelAndView query()
+    public ModelAndView query(HttpServletRequest request)
     {
         Map<String, Object> map = new HashMap<String, Object>();
         Map<String, Object> context = new HashMap<String, Object>();
@@ -39,7 +40,16 @@ public class CardController
         List<TEnum> enumList = enumService.query(map);
         map.put("eCode", "BANK");
         List<TEnum> enumList2 = enumService.query(map);
+
+        int pageSize = 10;
+        int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        int total = service.count(map);
+        PageComponent pc = new PageComponent(page, total);
+        map.put("startIndex", (page - 1) * pageSize);
+        map.put("pageSize", pageSize);
+
         List<Card> list = service.query(map);
+        context = pc.getContext();
         context.put("list", list);
         context.put("enumList", enumList);
         context.put("enumList2", enumList2);

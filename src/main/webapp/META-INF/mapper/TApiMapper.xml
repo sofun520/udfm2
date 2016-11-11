@@ -32,6 +32,15 @@
 		select
 		<include refid="Base_Column_List" />
 		from t_api
+		<if test="pageSize!=null and pageSize!=0">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from t_api
 	</select>
 
 	<delete id="delete" parameterType="java.lang.Integer">

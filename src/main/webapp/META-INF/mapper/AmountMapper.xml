@@ -10,7 +10,7 @@
 		<result column="A_IMG" property="aImg" jdbcType="INTEGER" />
 		<result column="A_DATE" property="aDate" jdbcType="TIMESTAMP" />
 	</resultMap>
-	
+
 	<resultMap id="BaseResultMap2" type="cn.springmvc.model.Amount">
 		<id column="A_ID" property="aId" jdbcType="INTEGER" />
 		<result column="A_TYPE" property="aType" jdbcType="CHAR" />
@@ -35,13 +35,24 @@
 
 	<select id="query" resultMap="BaseResultMap2" parameterType="java.util.Map">
 		SELECT
-			a.*, c.C_NO
+		a.*, c.C_NO
 		FROM
-			`amount` a
+		`amount` a
 		LEFT JOIN card c ON a.A_CARD_ID = c.C_ID
-		
+		<if test="pageSize!=null and pageSize!=0">
+			limit #{startIndex},#{pageSize}
+		</if>
 	</select>
-	
+
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT
+		count(*)
+		FROM
+		`amount` a
+		LEFT JOIN card c ON a.A_CARD_ID = c.C_ID
+	</select>
+
 	<select id="query1" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select
 		<include refid="Base_Column_List" />
